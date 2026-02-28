@@ -14,6 +14,12 @@ pnpm install
 pnpm dev
 ```
 
+## Documentation
+
+- [Local Development](./docs/local-development.md) — Setup, dev workflow, and testing
+- [Release Process](./docs/release-process.md) — How versioning and npm publishing works
+- [Contributing](./docs/contributing.md) — Guidelines for contributors
+
 ## License
 
 MIT

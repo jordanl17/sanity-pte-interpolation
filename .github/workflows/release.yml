@@ -1,4 +1,5 @@
 name: Release
+run-name: 'Release — ${{ github.event.head_commit.message }}'
 
 on:
   push:
@@ -10,18 +11,21 @@ permissions:
 
 jobs:
   release-please:
+    name: Create Release PRs
     runs-on: ubuntu-latest
     outputs:
       plugin-release-created: ${{ steps.release.outputs['packages/sanity-plugin-pte-interpolation--release_created'] }}
       react-release-created: ${{ steps.release.outputs['packages/pte-interpolation-react--release_created'] }}
     steps:
-      - uses: googleapis/release-please-action@v4
+      - name: Run release-please
+        uses: googleapis/release-please-action@v4
         id: release
         with:
           config-file: release-please-config.json
           manifest-file: .release-please-manifest.json
 
   publish-plugin:
+    name: Publish sanity-plugin-pte-interpolation
     needs: release-please
     if: needs.release-please.outputs.plugin-release-created == 'true'
     runs-on: ubuntu-latest
@@ -29,24 +33,33 @@ jobs:
       contents: read
       id-token: write
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      - uses: pnpm/action-setup@v4
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
 
-      - uses: actions/setup-node@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
           node-version: lts/*
           cache: pnpm
           registry-url: https://registry.npmjs.org
 
-      - run: pnpm install --frozen-lockfile
-      - run: pnpm build:packages
-      - run: pnpm --filter sanity-plugin-pte-interpolation publish --no-git-checks
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build packages
+        run: pnpm build:packages
+
+      - name: Publish to npm
+        run: pnpm --filter sanity-plugin-pte-interpolation publish --no-git-checks
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
           NPM_CONFIG_PROVENANCE: true
 
   publish-react:
+    name: Publish pte-interpolation-react
     needs: release-please
     if: needs.release-please.outputs.react-release-created == 'true'
     runs-on: ubuntu-latest
@@ -54,19 +67,27 @@ jobs:
       contents: read
       id-token: write
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      - uses: pnpm/action-setup@v4
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
 
-      - uses: actions/setup-node@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
           node-version: lts/*
           cache: pnpm
           registry-url: https://registry.npmjs.org
 
-      - run: pnpm install --frozen-lockfile
-      - run: pnpm build:packages
-      - run: pnpm --filter pte-interpolation-react publish --no-git-checks
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build packages
+        run: pnpm build:packages
+
+      - name: Publish to npm
+        run: pnpm --filter pte-interpolation-react publish --no-git-checks
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
           NPM_CONFIG_PROVENANCE: true

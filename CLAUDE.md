@@ -63,3 +63,21 @@ Turborepo monorepo with two publishable npm packages and two dev apps.
 
 - `sanity-plugin-pte-interpolation` supports `sanity ^3.0.0 || ^4.0.0 || ^5.0.0` and `react ^18.0.0 || ^19.0.0`
 - `pte-interpolation-react` supports `react ^18.0.0 || ^19.0.0`
+
+## Workflow
+
+- **Self-Learning**: After corrections, save the pattern to auto memory. Review lessons at session start.
+- **Verification Before Done**: Never mark a task complete without proving it works — run `pnpm build:packages`, `pnpm lint`, `pnpm type-check`, `pnpm test`.
+- **Simplicity First**: Minimal code impact. Find root causes. No temporary fixes.
+
+## File Conventions
+
+- Test files: `src/__tests__/*.test.{ts,tsx}` within each package
+- Package config: `package.config.ts` at each package root
+- TypeScript configs: `tsconfig.json` (IDE) + `tsconfig.build.json` (build output, excludes tests)
+- Schema types: `apps/studio/schemaTypes/`
+
+## Sanity Project
+
+- Project ID: `784cyakr`
+- Dataset: `production`
