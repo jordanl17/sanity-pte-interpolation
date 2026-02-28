@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.1](https://github.com/jordanl17/sanity-pte-interpolation/compare/sanity-plugin-pte-interpolation-v1.1.0...sanity-plugin-pte-interpolation-v1.1.1) (2026-02-28)
+
+
+### Documentation
+
+* add demo image to README files for all packages ([086d7f2](https://github.com/jordanl17/sanity-pte-interpolation/commit/086d7f2239f7a0438ef77b27665e67c68ee50116))
+
 ## [1.1.0](https://github.com/jordanl17/sanity-pte-interpolation/compare/sanity-plugin-pte-interpolation-v1.0.1...sanity-plugin-pte-interpolation-v1.1.0) (2026-02-28)
 
 
