@@ -1,0 +1,55 @@
+import {TagIcon} from '@sanity/icons'
+import {defineArrayMember, defineField} from 'sanity'
+import {
+  createVariableInlineBlock,
+  createVariableKeyInput,
+  VariableKeyField,
+} from './components/VariableInlineBlock'
+import type {InterpolationVariable} from './types'
+
+/** @public */
+export const VARIABLE_TYPE_PREFIX = 'pteInterpolationVariable'
+
+/** @public */
+export function interpolationVariables(
+  variables: InterpolationVariable[],
+  block?: ReturnType<typeof defineArrayMember>,
+) {
+  const variableType = defineArrayMember({
+    type: 'object',
+    name: VARIABLE_TYPE_PREFIX,
+    title: 'Variable',
+    icon: TagIcon,
+    options: {
+      modal: {width: 0},
+    },
+    fields: [
+      defineField({
+        name: 'variableKey',
+        title: 'Variable',
+        type: 'string',
+        options: {
+          list: variables.map((variable) => ({
+            title: variable.name,
+            value: variable.id,
+          })),
+        },
+        validation: (rule) => rule.required(),
+        components: {
+          field: VariableKeyField,
+          input: createVariableKeyInput(variables),
+        },
+      }),
+    ],
+    components: {
+      inlineBlock: createVariableInlineBlock(variables),
+    },
+  })
+
+  const baseBlock = block ?? defineArrayMember({type: 'block'})
+
+  return {
+    ...baseBlock,
+    of: [...((baseBlock as {of?: unknown[]}).of ?? []), variableType],
+  }
+}

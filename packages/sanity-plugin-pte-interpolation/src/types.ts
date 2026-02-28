@@ -1,11 +1,6 @@
 /** @public */
 export interface InterpolationVariable {
+  id: string
   name: string
-  defaultValue?: string
   description?: string
-}
-
-/** @public */
-export interface PteInterpolationPluginConfig {
-  variables?: InterpolationVariable[]
 }
