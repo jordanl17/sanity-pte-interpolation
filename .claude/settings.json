@@ -64,14 +64,9 @@
       "Grep",
       "WebFetch",
       "WebSearch",
-      "Task"
+      "Task",
+      "mcp__Sanity__*"
     ],
-    "deny": [
-      "Bash(git push*)",
-      "Bash(git commit*)",
-      "Bash(rm *)",
-      "Bash(rm -rf *)",
-      "Bash(rm -f *)"
-    ]
+    "ask": ["Bash(git push*)", "Bash(git commit*)", "Bash(rm *)", "Bash(rm -rf *)", "Bash(rm -f *)"]
   }
 }
