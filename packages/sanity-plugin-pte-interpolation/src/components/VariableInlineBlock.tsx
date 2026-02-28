@@ -36,7 +36,7 @@ export function createVariableInlineBlock(variables: InterpolationVariable[]) {
       renderPreview: () => (
         <Box padding={2}>
           <Text size={0} weight="medium">
-            {variable ? variable.name : (variableKey ?? 'Select variable')}
+            {variable?.name ?? variableKey ?? 'Select variable'}
           </Text>
         </Box>
       ),
