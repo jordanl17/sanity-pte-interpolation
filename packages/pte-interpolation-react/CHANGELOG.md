@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.1.0](https://github.com/jordanl17/sanity-pte-interpolation/compare/pte-interpolation-react-v1.0.1...pte-interpolation-react-v1.1.0) (2026-02-28)
+
+
+### Features
+
+* add pte-interpolation-core package for variable interpolation utilities ([3a0b086](https://github.com/jordanl17/sanity-pte-interpolation/commit/3a0b086ca1a26feb728a7b19d6b8e0d109b1ed0b))
+
+
+### Documentation
+
+* standardize punctuation in markdown files ([b98f3fd](https://github.com/jordanl17/sanity-pte-interpolation/commit/b98f3fdf866b319967f8c26cd2e5dc2b04c5e376))
+
 ## [1.0.1](https://github.com/jordanl17/sanity-pte-interpolation/compare/pte-interpolation-react-v1.0.0...pte-interpolation-react-v1.0.1) (2026-02-28)
 
 
