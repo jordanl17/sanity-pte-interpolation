@@ -78,5 +78,5 @@ Turborepo monorepo with two publishable npm packages and two dev apps.
 
 ## Sanity Project
 
-- Project ID: `784cyakr`
+- Project ID: `i2zyueht`
 - Dataset: `production`

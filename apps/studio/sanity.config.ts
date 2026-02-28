@@ -7,7 +7,7 @@ import {schemaTypes} from './schemaTypes'
 export default defineConfig({
   name: 'default',
   title: 'PTE Interpolation Dev',
-  projectId: '784cyakr',
+  projectId: 'i2zyueht',
   dataset: 'production',
   plugins: [structureTool(), visionTool(), pteInterpolation()],
   schema: {
