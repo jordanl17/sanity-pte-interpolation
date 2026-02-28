@@ -154,7 +154,7 @@ Returns a `PortableTextComponents` object with a `types.pteInterpolationVariable
 
 ### `VARIABLE_TYPE_PREFIX`
 
-The constant `'pteInterpolationVariable'` — the `_type` string used for variable inline blocks. Exported for advanced use cases.
+The constant `'pteInterpolationVariable'` - the `_type` string used for variable inline blocks. Exported for advanced use cases.
 
 ## License
 

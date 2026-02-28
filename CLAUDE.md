@@ -39,7 +39,7 @@ Turborepo monorepo with two publishable npm packages and two dev apps.
 
 - **Build tool**: `@sanity/pkg-utils` for both publishable packages
 - **Output**: `dist/` with ESM (`.js`), CJS (`.cjs`), and TypeScript declarations (`.d.ts`)
-- **Local dev**: Workspace consumers import directly from `src/` via the `source` field in exports maps — no build needed during development
+- **Local dev**: Workspace consumers import directly from `src/` via the `source` field in exports maps - no build needed during development
 - **Orchestration**: Turborepo handles task dependencies and caching
 
 ## Coding Conventions
@@ -66,7 +66,7 @@ Turborepo monorepo with two publishable npm packages and two dev apps.
 
 ## Workflow
 
-- **Verification Before Done**: Never mark a task complete without proving it works — run `pnpm build:packages`, `pnpm lint`, `pnpm type-check`, `pnpm test`.
+- **Verification Before Done**: Never mark a task complete without proving it works - run `pnpm build:packages`, `pnpm lint`, `pnpm type-check`, `pnpm test`.
 - **Simplicity First**: Minimal code impact. Find root causes. No temporary fixes.
 
 ## File Conventions

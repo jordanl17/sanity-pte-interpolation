@@ -15,7 +15,7 @@ export const myPlugin = definePlugin<Config | void>((config) => {
 })
 ```
 
-Peer deps — the consuming Studio provides them at runtime:
+Peer deps - the consuming Studio provides them at runtime:
 
 - `sanity`: `^3.0.0 || ^4.0.0 || ^5.0.0`
 - `react`: `^18.0.0 || ^19.0.0`

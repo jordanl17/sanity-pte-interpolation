@@ -8,10 +8,10 @@ paths:
 
 Each publishable package's exports map requires: `source`, `import`, `require`, `default`, and `./package.json`.
 
-- `source` — raw TypeScript entry for local dev
-- `import` — ESM build output
-- `require` — CJS build output
-- `default` — fallback (same as `import`)
+- `source` - raw TypeScript entry for local dev
+- `import` - ESM build output
+- `require` - CJS build output
+- `default` - fallback (same as `import`)
 
 Also required: `sideEffects: false`, `browserslist`, and `publishConfig.exports` (mirrors `exports` without `source`).
 

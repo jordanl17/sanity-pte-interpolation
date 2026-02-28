@@ -125,7 +125,7 @@ interface InterpolationVariable {
 
 ### `VARIABLE_TYPE_PREFIX`
 
-The constant `'pteInterpolationVariable'` — the `_type` string used for variable inline blocks in stored Portable Text. Exported for advanced use cases.
+The constant `'pteInterpolationVariable'` - the `_type` string used for variable inline blocks in stored Portable Text. Exported for advanced use cases.
 
 ## License
 
