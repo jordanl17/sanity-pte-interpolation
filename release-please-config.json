@@ -1,0 +1,13 @@
+{
+  "separate-pull-requests": true,
+  "packages": {
+    "packages/sanity-plugin-pte-interpolation": {
+      "release-type": "node",
+      "package-name": "sanity-plugin-pte-interpolation"
+    },
+    "packages/pte-interpolation-react": {
+      "release-type": "node",
+      "package-name": "pte-interpolation-react"
+    }
+  }
+}
