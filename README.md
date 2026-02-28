@@ -2,6 +2,8 @@
 
 [![npm version](https://img.shields.io/npm/v/sanity-plugin-pte-interpolation.svg?style=flat-square)](https://www.npmjs.com/package/sanity-plugin-pte-interpolation) [![npm version](https://img.shields.io/npm/v/pte-interpolation-react.svg?style=flat-square)](https://www.npmjs.com/package/pte-interpolation-react) [![npm version](https://img.shields.io/npm/v/pte-interpolation-core.svg?style=flat-square)](https://www.npmjs.com/package/pte-interpolation-core)
 
+![Demo](https://raw.githubusercontent.com/jordanl17/sanity-pte-interpolation/main/.github/assets/demo.png)
+
 Embed dynamic variables inside [Portable Text](https://portabletext.org/) content in [Sanity Studio](https://www.sanity.io/studio), then resolve them to real values at render time in React. Think mail merge for rich text - an editor writes "Hello, `{firstName}`!" and the frontend substitutes the actual value at runtime.
 
 ## Packages

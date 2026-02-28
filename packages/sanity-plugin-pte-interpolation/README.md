@@ -2,6 +2,8 @@
 
 [![npm version](https://img.shields.io/npm/v/sanity-plugin-pte-interpolation.svg?style=flat-square)](https://www.npmjs.com/package/sanity-plugin-pte-interpolation)
 
+![Demo](https://raw.githubusercontent.com/jordanl17/sanity-pte-interpolation/main/.github/assets/demo.png)
+
 Sanity Studio schema helper that adds dynamic variable picker inline blocks to the [Portable Text Editor](https://www.sanity.io/docs/portable-text-editor). Editors can insert named variables (like `{firstName}` or `{email}`) directly into rich text content, which are then resolved to real values at render time.
 
 Part of [sanity-pte-interpolation](https://github.com/jordanl17/sanity-pte-interpolation). For rendering the variables in React, see [`pte-interpolation-react`](https://www.npmjs.com/package/pte-interpolation-react).

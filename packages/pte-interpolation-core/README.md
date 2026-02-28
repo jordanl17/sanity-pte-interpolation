@@ -2,6 +2,8 @@
 
 [![npm version](https://img.shields.io/npm/v/pte-interpolation-core.svg?style=flat-square)](https://www.npmjs.com/package/pte-interpolation-core)
 
+![Demo](https://raw.githubusercontent.com/jordanl17/sanity-pte-interpolation/main/.github/assets/demo.png)
+
 Framework-agnostic utilities for [Portable Text](https://portabletext.org/) variable interpolation. Extract variable keys from PTE blocks and resolve them to plain strings - with zero dependencies.
 
 Part of [sanity-pte-interpolation](https://github.com/jordanl17/sanity-pte-interpolation). For adding variable picker inline blocks to Sanity Studio, see [`sanity-plugin-pte-interpolation`](https://www.npmjs.com/package/sanity-plugin-pte-interpolation). For React rendering with rich text output, see [`pte-interpolation-react`](https://www.npmjs.com/package/pte-interpolation-react).

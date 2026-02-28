@@ -2,6 +2,8 @@
 
 [![npm version](https://img.shields.io/npm/v/pte-interpolation-react.svg?style=flat-square)](https://www.npmjs.com/package/pte-interpolation-react)
 
+![Demo](https://raw.githubusercontent.com/jordanl17/sanity-pte-interpolation/main/.github/assets/demo.png)
+
 React rendering library that resolves dynamic variable inline blocks in [Portable Text](https://portabletext.org/) to actual values. Wraps [`@portabletext/react`](https://github.com/portabletext/react-portabletext) with automatic variable substitution.
 
 Part of [sanity-pte-interpolation](https://github.com/jordanl17/sanity-pte-interpolation). For adding variable picker inline blocks to Sanity Studio, see [`sanity-plugin-pte-interpolation`](https://www.npmjs.com/package/sanity-plugin-pte-interpolation).
