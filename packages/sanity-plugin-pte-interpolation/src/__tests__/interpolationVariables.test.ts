@@ -39,7 +39,7 @@ describe('interpolationVariables', () => {
     expect(ofArray[0].icon).toBeDefined()
   })
 
-  it('should have a variableKey string field with options.list matching the provided variables', () => {
+  it('should have a variableKey string field without options.list', () => {
     const result = interpolationVariables(testVariables)
     const ofArray = result.of as Array<{fields?: Array<Record<string, unknown>>}>
     const fields = ofArray[0].fields
@@ -48,13 +48,8 @@ describe('interpolationVariables', () => {
     expect(fields?.[0]).toMatchObject({
       name: 'variableKey',
       type: 'string',
-      options: {
-        list: [
-          {title: 'First name', value: 'firstName'},
-          {title: 'Email address', value: 'email'},
-        ],
-      },
     })
+    expect((fields?.[0] as Record<string, unknown>)?.options).toBeUndefined()
   })
 
   it('should set required validation on the variableKey field', () => {

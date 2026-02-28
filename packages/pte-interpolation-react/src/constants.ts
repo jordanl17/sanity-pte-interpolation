@@ -1,2 +1,1 @@
-/** @public */
-export const VARIABLE_TYPE_PREFIX = 'pteInterpolationVariable'
+export {VARIABLE_TYPE_PREFIX} from 'pte-interpolation-core'

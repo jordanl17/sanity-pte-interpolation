@@ -1,9 +1,11 @@
 import {PortableText} from '@portabletext/react'
 import type {PortableTextBlock, PortableTextComponents} from '@portabletext/react'
+import {Card, Container, Flex, Heading, Label, Spinner, Stack, Text, TextInput} from '@sanity/ui'
 import type {InterpolationValues} from 'pte-interpolation-react'
 import {createInterpolationComponents, InterpolatedPortableText} from 'pte-interpolation-react'
-import {useEffect, useMemo, useState} from 'react'
+import {type ReactNode, useEffect, useMemo, useState} from 'react'
 
+import {InterpolationMetadata} from './InterpolationMetadata'
 import {sanityClient} from './sanityClient'
 
 interface TestDocument {
@@ -18,6 +20,61 @@ const DEFAULT_VALUES: InterpolationValues = {
   firstName: 'Test firstname',
   lastName: 'Test lastname',
   email: 'test-test@email.com',
+}
+
+function BlockFallback({children}: {children?: ReactNode}) {
+  return <Text size={2}>{children}</Text>
+}
+
+const baseComponents: PortableTextComponents = {
+  block: {
+    normal: BlockFallback,
+    h1: ({children}) => (
+      <Heading as="h1" size={3}>
+        {children}
+      </Heading>
+    ),
+    h2: ({children}) => (
+      <Heading as="h2" size={2}>
+        {children}
+      </Heading>
+    ),
+    h3: ({children}) => (
+      <Heading as="h3" size={1}>
+        {children}
+      </Heading>
+    ),
+    h4: ({children}) => (
+      <Heading as="h4" size={0}>
+        {children}
+      </Heading>
+    ),
+    h5: BlockFallback,
+    h6: BlockFallback,
+    blockquote: ({children}) => (
+      <Card paddingLeft={3} borderLeft>
+        <Text size={2} muted>
+          {children}
+        </Text>
+      </Card>
+    ),
+  },
+  marks: {
+    strong: ({children}) => <strong>{children}</strong>,
+    em: ({children}) => <em>{children}</em>,
+  },
+}
+
+const diyComponents: PortableTextComponents = {
+  ...baseComponents,
+  block: {
+    ...baseComponents.block,
+    normal: ({children}) => (
+      <Card padding={2} radius={2} tone="primary">
+        <Text size={2}>{children}</Text>
+      </Card>
+    ),
+  } as PortableTextComponents['block'],
 }
 
 export function App() {
@@ -39,141 +96,170 @@ export function App() {
   }
 
   return (
-    <div
-      style={{
-        padding: '2rem',
-        fontFamily: 'system-ui, sans-serif',
-        maxWidth: '800px',
-        margin: '0 auto',
-      }}
-    >
-      <h1>PTE Interpolation Test</h1>
+    <Container width={2} padding={4}>
+      <Stack space={5}>
+        <Heading as="h1" size={3}>
+          PTE Interpolation Test
+        </Heading>
 
-      <div style={{display: 'flex', gap: '1rem', marginBottom: '2rem', flexWrap: 'wrap'}}>
-        {VARIABLE_FIELDS.map((field) => (
-          <label key={field} style={{display: 'flex', flexDirection: 'column', gap: '0.25rem'}}>
-            <span style={{fontSize: '0.875rem', fontWeight: 600}}>{field}</span>
-            <input
-              type="text"
-              value={values[field] ?? ''}
-              onChange={(event) => handleInputChange(field, event.target.value)}
-              style={{
-                padding: '0.5rem',
-                border: '1px solid #ccc',
-                borderRadius: '4px',
-                fontSize: '0.875rem',
-              }}
-            />
-          </label>
-        ))}
-      </div>
+        <Flex wrap="wrap" gap={3}>
+          {VARIABLE_FIELDS.map((field) => (
+            <Stack key={field} space={2} style={{flex: '1 1 10rem'}}>
+              <Label size={1}>{field}</Label>
+              <TextInput
+                value={values[field] ?? ''}
+                onChange={(event) => handleInputChange(field, event.currentTarget.value)}
+              />
+            </Stack>
+          ))}
+        </Flex>
 
-      {loading && <p>Loading documents...</p>}
-      {error && <p style={{color: 'red'}}>Error: {error}</p>}
+        {loading && (
+          <Flex align="center" gap={3}>
+            <Spinner muted />
+            <Text muted>Loading documents...</Text>
+          </Flex>
+        )}
 
-      <div style={{display: 'flex', flexDirection: 'column', gap: '1rem'}}>
-        {documents.map((document) => (
-          <div
-            key={document._id}
-            style={{
-              border: '1px solid #e0e0e0',
-              borderRadius: '8px',
-              padding: '1.5rem',
-              backgroundColor: '#fafafa',
-            }}
-          >
-            <h2 style={{margin: '0 0 0.75rem', fontSize: '1.125rem'}}>{document.title}</h2>
-            {document.body ? (
-              <InterpolatedPortableText value={document.body} interpolationValues={values} />
-            ) : (
-              <p style={{color: '#999', fontStyle: 'italic'}}>No body content</p>
-            )}
-          </div>
-        ))}
-      </div>
+        {error && (
+          <Card padding={3} radius={2} tone="critical">
+            <Text>Error: {error}</Text>
+          </Card>
+        )}
 
-      {!loading && documents.length === 0 && !error && (
-        <p style={{color: '#666'}}>No test documents found. Create some in the Studio.</p>
-      )}
+        {loading === false && documents.length === 0 && error === null && (
+          <Text muted>No test documents found. Create some in the Studio.</Text>
+        )}
 
-      {documents.length > 0 && <DiySection documents={documents} values={values} />}
-    </div>
+        {documents.length > 0 && (
+          <>
+            <Section
+              title="InterpolatedPortableText"
+              description="High-level API that handles component merging for you."
+            >
+              {documents.map((document) => (
+                <DocumentCard
+                  key={document._id}
+                  title={document.title}
+                  body={document.body}
+                  values={values}
+                >
+                  <InterpolatedPortableText
+                    value={document.body}
+                    interpolationValues={values}
+                    components={baseComponents}
+                  />
+                </DocumentCard>
+              ))}
+            </Section>
+
+            <Section
+              title="createInterpolationComponents"
+              description="Low-level API to merge interpolation with custom block/mark renderers via your own PortableText setup."
+            >
+              {documents.map((document) => (
+                <DiyDocumentCard key={document._id} document={document} values={values} />
+              ))}
+            </Section>
+
+            <Section
+              title="Core Utilities (Raw JS)"
+              description="Framework-agnostic utilities from pte-interpolation-core. No React rendering involved - just plain string output."
+            >
+              {documents.map((document) => (
+                <DocumentCard
+                  key={document._id}
+                  title={document.title}
+                  body={document.body}
+                  values={values}
+                  metadataOnly
+                />
+              ))}
+            </Section>
+          </>
+        )}
+      </Stack>
+    </Container>
   )
 }
 
-const customComponents: PortableTextComponents = {
-  block: {
-    normal: ({children}) => (
-      <p
-        style={{
-          margin: '0.25rem 0',
-          padding: '0.5rem',
-          backgroundColor: '#e8f4f8',
-          borderRadius: '4px',
-        }}
-      >
-        {children}
-      </p>
-    ),
-    h1: ({children}) => (
-      <h1 style={{color: '#1a5276', borderBottom: '2px solid #1a5276', paddingBottom: '0.25rem'}}>
-        {children}
-      </h1>
-    ),
-    h2: ({children}) => <h2 style={{color: '#2e86c1'}}>{children}</h2>,
-  },
-  marks: {
-    strong: ({children}) => <strong style={{color: '#c0392b'}}>{children}</strong>,
-    em: ({children}) => <em style={{fontStyle: 'italic', color: '#7d3c98'}}>{children}</em>,
-  },
+interface SectionProps {
+  title: string
+  description: string
+  children: ReactNode
 }
 
-interface DiySectionProps {
-  documents: TestDocument[]
+function Section({title, description, children}: SectionProps) {
+  return (
+    <Card borderTop paddingTop={5}>
+      <Stack space={4}>
+        <Stack space={2}>
+          <Heading as="h2" size={2}>
+            {title}
+          </Heading>
+          <Text size={1} muted>
+            {description}
+          </Text>
+        </Stack>
+        <Stack space={3}>{children}</Stack>
+      </Stack>
+    </Card>
+  )
+}
+
+interface DocumentCardProps {
+  title: string
+  body: PortableTextBlock[]
+  values: InterpolationValues
+  children?: ReactNode
+  metadataOnly?: boolean
+}
+
+function DocumentCard({title, body, values, children, metadataOnly}: DocumentCardProps) {
+  return (
+    <Card padding={4} radius={2} shadow={1}>
+      <Stack space={3}>
+        <Heading as="h3" size={1}>
+          {title}
+        </Heading>
+        {body ? (
+          <Stack space={3}>
+            {metadataOnly === true ? null : children}
+            <InterpolationMetadata
+              body={body}
+              values={values}
+              showPlainText={metadataOnly === true}
+            />
+          </Stack>
+        ) : (
+          <Text muted>No body content</Text>
+        )}
+      </Stack>
+    </Card>
+  )
+}
+
+interface DiyDocumentCardProps {
+  document: TestDocument
   values: InterpolationValues
 }
 
-function DiySection({documents, values}: DiySectionProps) {
+function DiyDocumentCard({document, values}: DiyDocumentCardProps) {
   const mergedComponents = useMemo(() => {
     const interpolation = createInterpolationComponents(values)
 
     return {
-      ...customComponents,
+      ...diyComponents,
       types: {
-        ...customComponents.types,
+        ...diyComponents.types,
         ...interpolation.types,
       },
     }
   }, [values])
 
   return (
-    <div style={{marginTop: '3rem', borderTop: '2px solid #ddd', paddingTop: '2rem'}}>
-      <h2 style={{margin: '0 0 0.5rem'}}>Advanced: createInterpolationComponents</h2>
-      <p style={{color: '#666', margin: '0 0 1.5rem', fontSize: '0.875rem'}}>
-        Uses the low-level API to merge interpolation with custom block/mark renderers via your own
-        PortableText setup.
-      </p>
-
-      <div style={{display: 'flex', flexDirection: 'column', gap: '1rem'}}>
-        {documents.map((document) => (
-          <div
-            key={document._id}
-            style={{
-              border: '2px dashed #2e86c1',
-              borderRadius: '8px',
-              padding: '1.5rem',
-              backgroundColor: '#fdfefe',
-            }}
-          >
-            <h3 style={{margin: '0 0 0.75rem', fontSize: '1.125rem'}}>{document.title}</h3>
-            {document.body ? (
-              <PortableText value={document.body} components={mergedComponents} />
-            ) : (
-              <p style={{color: '#999', fontStyle: 'italic'}}>No body content</p>
-            )}
-          </div>
-        ))}
-      </div>
-    </div>
+    <DocumentCard title={document.title} body={document.body} values={values}>
+      <PortableText value={document.body} components={mergedComponents} />
+    </DocumentCard>
   )
 }

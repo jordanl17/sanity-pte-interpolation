@@ -15,6 +15,10 @@
     "packages/pte-interpolation-react": {
       "release-type": "node",
       "package-name": "pte-interpolation-react"
+    },
+    "packages/pte-interpolation-core": {
+      "release-type": "node",
+      "package-name": "pte-interpolation-core"
     }
   }
 }

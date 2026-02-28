@@ -85,6 +85,16 @@ import {InterpolatedPortableText} from 'pte-interpolation-react'
 />
 ```
 
+For framework-agnostic use cases - plain string output, variable key extraction, server-side rendering, or any non-React environment - use [`pte-interpolation-core`](https://www.npmjs.com/package/pte-interpolation-core) directly:
+
+```ts
+import {interpolateToString, extractVariableKeys} from 'pte-interpolation-core'
+
+const keys = extractVariableKeys(blocks) // ['firstName', 'email']
+const text = interpolateToString(blocks, {firstName: 'Jo', email: 'jo@example.com'})
+// "Hello, Jo! Your email is jo@example.com."
+```
+
 ## Data Shape
 
 Variables are stored as inline objects within Portable Text blocks:

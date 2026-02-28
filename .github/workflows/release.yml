@@ -16,6 +16,7 @@ jobs:
     outputs:
       plugin-release-created: ${{ steps.release.outputs['packages/sanity-plugin-pte-interpolation--release_created'] }}
       react-release-created: ${{ steps.release.outputs['packages/pte-interpolation-react--release_created'] }}
+      core-release-created: ${{ steps.release.outputs['packages/pte-interpolation-core--release_created'] }}
     steps:
       - name: Run release-please
         uses: googleapis/release-please-action@v4
@@ -88,6 +89,40 @@ jobs:
 
       - name: Publish to npm
         run: pnpm --filter pte-interpolation-react publish --no-git-checks
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_CONFIG_PROVENANCE: true
+
+  publish-core:
+    name: Publish pte-interpolation-core
+    needs: release-please
+    if: needs.release-please.outputs.core-release-created == 'true'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+          cache: pnpm
+          registry-url: https://registry.npmjs.org
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build packages
+        run: pnpm build:packages
+
+      - name: Publish to npm
+        run: pnpm --filter pte-interpolation-core publish --no-git-checks
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
           NPM_CONFIG_PROVENANCE: true

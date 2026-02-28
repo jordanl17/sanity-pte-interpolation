@@ -28,12 +28,6 @@ export function interpolationVariables(
         name: 'variableKey',
         title: 'Variable',
         type: 'string',
-        options: {
-          list: variables.map((variable) => ({
-            title: variable.name,
-            value: variable.id,
-          })),
-        },
         validation: (rule) => rule.required(),
         components: {
           field: VariableKeyField,

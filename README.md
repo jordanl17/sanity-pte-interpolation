@@ -1,17 +1,18 @@
 # sanity-pte-interpolation
 
-[![npm version](https://img.shields.io/npm/v/sanity-plugin-pte-interpolation.svg?style=flat-square)](https://www.npmjs.com/package/sanity-plugin-pte-interpolation) [![npm version](https://img.shields.io/npm/v/pte-interpolation-react.svg?style=flat-square)](https://www.npmjs.com/package/pte-interpolation-react)
+[![npm version](https://img.shields.io/npm/v/sanity-plugin-pte-interpolation.svg?style=flat-square)](https://www.npmjs.com/package/sanity-plugin-pte-interpolation) [![npm version](https://img.shields.io/npm/v/pte-interpolation-react.svg?style=flat-square)](https://www.npmjs.com/package/pte-interpolation-react) [![npm version](https://img.shields.io/npm/v/pte-interpolation-core.svg?style=flat-square)](https://www.npmjs.com/package/pte-interpolation-core)
 
 Embed dynamic variables inside [Portable Text](https://portabletext.org/) content in [Sanity Studio](https://www.sanity.io/studio), then resolve them to real values at render time in React. Think mail merge for rich text - an editor writes "Hello, `{firstName}`!" and the frontend substitutes the actual value at runtime.
 
 ## Packages
 
-This project ships two independent, decoupled packages:
+This project ships three independent, decoupled packages:
 
 | Package                                                                         | Purpose                                                                                         |
 | ------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- |
 | [`sanity-plugin-pte-interpolation`](./packages/sanity-plugin-pte-interpolation) | Sanity Studio schema helper that adds variable picker inline blocks to the Portable Text Editor |
 | [`pte-interpolation-react`](./packages/pte-interpolation-react)                 | React rendering library that resolves variable blocks to real values                            |
+| [`pte-interpolation-core`](./packages/pte-interpolation-core)                   | Framework-agnostic utilities for variable extraction and plain string interpolation             |
 
 See each package's README for full installation, usage, and API documentation.
 

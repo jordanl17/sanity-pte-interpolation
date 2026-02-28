@@ -1,10 +1,7 @@
 import type {PortableTextComponents, PortableTextProps} from '@portabletext/react'
+import type {InterpolationFallback, InterpolationValues} from 'pte-interpolation-core'
 
-/** @public */
-export type InterpolationValues = Record<string, string>
-
-/** @public */
-export type InterpolationFallback = (variableKey: string) => string
+export type {InterpolationFallback, InterpolationValues} from 'pte-interpolation-core'
 
 /** @public */
 export interface PteInterpolationVariableBlock {
