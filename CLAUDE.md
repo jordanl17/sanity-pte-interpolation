@@ -66,7 +66,6 @@ Turborepo monorepo with two publishable npm packages and two dev apps.
 
 ## Workflow
 
-- **Self-Learning**: After corrections, save the pattern to auto memory. Review lessons at session start.
 - **Verification Before Done**: Never mark a task complete without proving it works — run `pnpm build:packages`, `pnpm lint`, `pnpm type-check`, `pnpm test`.
 - **Simplicity First**: Minimal code impact. Find root causes. No temporary fixes.
 
