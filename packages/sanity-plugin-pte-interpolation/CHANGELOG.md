@@ -1,5 +1,23 @@
 # Changelog
 
+## [1.0.1](https://github.com/jordanl17/sanity-pte-interpolation/compare/sanity-plugin-pte-interpolation-v1.0.0...sanity-plugin-pte-interpolation-v1.0.1) (2026-02-28)
+
+
+### Bug Fixes
+
+* making it work... ([1fe970b](https://github.com/jordanl17/sanity-pte-interpolation/commit/1fe970bc4ca60480ab5cea366e736b4e35458432))
+
+
+### Refactoring
+
+* implementing studio picker ([fc8aae3](https://github.com/jordanl17/sanity-pte-interpolation/commit/fc8aae3a7eb638a25258f84503f186480cf2c668))
+* improve variable name rendering in VariableInlineBlock component ([82cccc6](https://github.com/jordanl17/sanity-pte-interpolation/commit/82cccc6fc093016fc25260cdc4e0d141a8ced0e0))
+
+
+### Documentation
+
+* readmes ([5a581ab](https://github.com/jordanl17/sanity-pte-interpolation/commit/5a581ab4565060c205baf90b311207af1039b3e1))
+
 ## 1.0.0 (2026-02-28)
 
 
