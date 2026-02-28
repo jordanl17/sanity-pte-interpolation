@@ -34,9 +34,11 @@ export function createVariableInlineBlock(variables: InterpolationVariable[]) {
     return props.renderDefault({
       ...props,
       renderPreview: () => (
-        <Text size={0} weight="medium">
-          {variable ? variable.name : (variableKey ?? 'Select variable')}
-        </Text>
+        <Box padding={2}>
+          <Text size={0} weight="medium">
+            {variable ? variable.name : (variableKey ?? 'Select variable')}
+          </Text>
+        </Box>
       ),
     })
   }
