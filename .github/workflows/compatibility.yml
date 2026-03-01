@@ -48,4 +48,4 @@ jobs:
         run: pnpm install --no-frozen-lockfile
 
       - name: Test sanity plugin
-        run: pnpm test -- packages/sanity-plugin-pte-interpolation
+        run: pnpm vitest run --exclude '**/pte-interpolation-react/**' --exclude '**/pte-interpolation-core/**'
