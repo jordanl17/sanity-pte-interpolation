@@ -52,7 +52,7 @@ apps/
   test-app/                          # Dev Vite + React app (private)
 ```
 
-- **Packages** are publishable to npm and built with `@sanity/pkg-utils`.
+- **Packages** are publishable to npm. `pte-interpolation-core` and `pte-interpolation-react` are built with `tsup`; `sanity-plugin-pte-interpolation` is built with `@sanity/pkg-utils`.
 - **Apps** are private, used only for local development and testing.
 
 ## Common Tasks
@@ -118,7 +118,7 @@ For continuous development, use the watch mode:
 pnpm link-watch
 ```
 
-This rebuilds on file changes using `pkg-utils watch`.
+This runs `tsup --watch` for the core and react packages, and `pkg-utils watch` for the sanity plugin.
 
 ## Turborepo
 

@@ -2,6 +2,7 @@
 paths:
   - 'packages/*/package.json'
   - 'packages/*/package.config.ts'
+  - 'packages/*/tsup.config.ts'
 ---
 
 # Package Exports & Build
@@ -13,6 +14,9 @@ Each publishable package's exports map requires: `source`, `import`, `require`, 
 - `require` - CJS build output
 - `default` - fallback (same as `import`)
 
-Also required: `sideEffects: false`, `browserslist`, and `publishConfig.exports` (mirrors `exports` without `source`).
+Also required: `sideEffects: false` and `publishConfig.exports` (mirrors `exports` without `source`).
 
-Build with `pkg-utils build --strict --check --clean` (via `pnpm build:packages`). `--strict` enforces api-extractor validation.
+## Build tools
+
+- **`sanity-plugin-pte-interpolation`**: Built with `pkg-utils build --strict --check --clean`. `--strict` runs api-extractor, which requires `browserslist` and `package.config.ts`.
+- **`pte-interpolation-core` and `pte-interpolation-react`**: Built with `tsup`, configured in `tsup.config.ts`.

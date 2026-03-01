@@ -44,11 +44,11 @@ A commitlint hook validates this on every commit. If your commit is rejected, ch
 
 ## Package Exports
 
-Both publishable packages use `@sanity/pkg-utils` with `--strict` mode. This means:
+All publishable packages require an `exports` map in `package.json` with `source`, `import`, `require`, `default`, and `./package.json`.
 
-- All public API exports **must** have `/** @public */` JSDoc tags
-- The `exports` map in `package.json` must include `source`, `import`, `require`, `default`, and `./package.json`
-- Run `pnpm build:packages` to verify your changes pass the strict checks
+- **`sanity-plugin-pte-interpolation`** uses `@sanity/pkg-utils --strict`, which runs api-extractor. Every public export **must** have a `/** @public */` JSDoc tag; missing tags fail the build.
+- **`pte-interpolation-core`** and **`pte-interpolation-react`** use `tsup`. Include `/** @public */` tags for documentation; the build does not enforce them.
+- Run `pnpm build:packages` to verify your changes pass all build checks.
 
 ## Tests
 
@@ -76,6 +76,6 @@ pnpm test
 
 1. Create a directory under `packages/`
 2. Add `package.json` with the standard exports map pattern (copy from an existing package)
-3. Add `package.config.ts`, `tsconfig.json`, and `tsconfig.build.json`
+3. Add a build config (`tsup.config.ts` or `package.config.ts`), `tsconfig.json`, and `tsconfig.build.json`
 4. Add the package to `release-please-config.json` and `.release-please-manifest.json`
 5. Run `pnpm install` to link the new workspace
