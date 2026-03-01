@@ -54,8 +54,8 @@
     "yalc:publish": "npx yalc publish"
   },
   "devDependencies": {
-    "tsup": "^8.5.0",
-    "rimraf": "^6.1.3",
-    "typescript": "~5.9.3"
+    "tsup": "catalog:",
+    "rimraf": "catalog:",
+    "typescript": "catalog:"
   }
 }
