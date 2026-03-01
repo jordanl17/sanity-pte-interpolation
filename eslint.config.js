@@ -11,10 +11,10 @@ export default tseslint.config(
   },
   js.configs.recommended,
   ...tseslint.configs.recommended,
+  react.configs.flat.recommended,
   {
     files: ['**/*.{ts,tsx,js,jsx}'],
     plugins: {
-      react,
       'react-hooks': reactHooks,
     },
     languageOptions: {
@@ -25,11 +25,10 @@ export default tseslint.config(
     },
     settings: {
       react: {
-        version: 'detect',
+        version: '18',
       },
     },
     rules: {
-      ...react.configs.recommended.rules,
       ...reactHooks.configs.recommended.rules,
       '@typescript-eslint/no-unused-vars': [
         'error',
