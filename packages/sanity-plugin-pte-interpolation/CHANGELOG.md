@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.0](https://github.com/jordanl17/sanity-pte-interpolation/compare/sanity-plugin-pte-interpolation-v1.2.1...sanity-plugin-pte-interpolation-v1.3.0) (2026-03-01)
+
+
+### Miscellaneous
+
+* update package dependencies to use catalog references for consistency ([290ec46](https://github.com/jordanl17/sanity-pte-interpolation/commit/290ec4681fa8eea0c21bb8ccf500163f2d6c1b97))
+
 ## [1.2.1](https://github.com/jordanl17/sanity-pte-interpolation/compare/sanity-plugin-pte-interpolation-v1.2.0...sanity-plugin-pte-interpolation-v1.2.1) (2026-03-01)
 
 
