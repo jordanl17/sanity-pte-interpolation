@@ -1,5 +1,5 @@
 {
-  "packages/sanity-plugin-pte-interpolation": "1.1.1",
-  "packages/pte-interpolation-react": "1.1.1",
-  "packages/pte-interpolation-core": "1.1.1"
+  "packages/sanity-plugin-pte-interpolation": "1.2.0",
+  "packages/pte-interpolation-react": "1.2.0",
+  "packages/pte-interpolation-core": "1.2.0"
 }
