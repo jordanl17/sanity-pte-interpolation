@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.3.0](https://github.com/jordanl17/sanity-pte-interpolation/compare/pte-interpolation-react-v1.2.1...pte-interpolation-react-v1.3.0) (2026-03-01)
+
+
+### Features
+
+* add InterpolationProvider and useInterpolationValues for context-based interpolation ([ad9645a](https://github.com/jordanl17/sanity-pte-interpolation/commit/ad9645a6df0458643cad87fc8f4cd8be4514cbc1))
+
+
+### Miscellaneous
+
+* update package dependencies to use catalog references for consistency ([290ec46](https://github.com/jordanl17/sanity-pte-interpolation/commit/290ec4681fa8eea0c21bb8ccf500163f2d6c1b97))
+
 ## [1.2.1](https://github.com/jordanl17/sanity-pte-interpolation/compare/pte-interpolation-react-v1.2.0...pte-interpolation-react-v1.2.1) (2026-03-01)
 
 
