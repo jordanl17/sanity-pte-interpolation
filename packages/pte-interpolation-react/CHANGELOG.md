@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.1](https://github.com/jordanl17/sanity-pte-interpolation/compare/pte-interpolation-react-v1.3.0...pte-interpolation-react-v1.3.1) (2026-03-01)
+
+
+### Miscellaneous
+
+* **pte-interpolation-react:** Synchronize pte-interpolation versions
+
 ## [1.3.0](https://github.com/jordanl17/sanity-pte-interpolation/compare/pte-interpolation-react-v1.2.1...pte-interpolation-react-v1.3.0) (2026-03-01)
 
 
