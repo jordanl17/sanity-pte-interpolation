@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.2.0](https://github.com/jordanl17/sanity-pte-interpolation/compare/pte-interpolation-react-v1.1.1...pte-interpolation-react-v1.2.0) (2026-03-01)
+
+
+### Features
+
+* add getMissingVariableKeys function and update documentation ([ccc6f06](https://github.com/jordanl17/sanity-pte-interpolation/commit/ccc6f069e2588fad01f73662ee4a9a4ced5a883f))
+* stale variable detection and enhanced validation in interpolation variables ([9d608c5](https://github.com/jordanl17/sanity-pte-interpolation/commit/9d608c5dac8d3a0146d982d75321692f24ba8243))
+
+
+### Documentation
+
+* updates to consolidate examples and patterns in READMEs ([fd949fd](https://github.com/jordanl17/sanity-pte-interpolation/commit/fd949fd797beb6d1ca026499f6515d7e3c7cea4b))
+
 ## [1.1.1](https://github.com/jordanl17/sanity-pte-interpolation/compare/pte-interpolation-react-v1.1.0...pte-interpolation-react-v1.1.1) (2026-02-28)
 
 
