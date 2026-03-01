@@ -36,7 +36,6 @@
     "src",
     "dist"
   ],
-  "browserslist": "extends @sanity/browserslist-config",
   "publishConfig": {
     "access": "public",
     "exports": {
@@ -49,9 +48,9 @@
     }
   },
   "scripts": {
-    "build": "pkg-utils build --strict --check --clean",
+    "build": "tsup",
     "clean": "rimraf dist",
-    "link-watch": "pkg-utils watch --tsconfig tsconfig.build.json",
+    "link-watch": "tsup --watch",
     "type-check": "tsc --noEmit",
     "yalc:publish": "npx yalc publish"
   },
@@ -63,7 +62,7 @@
     "react": "^18.0.0 || ^19.0.0"
   },
   "devDependencies": {
-    "@sanity/pkg-utils": "^10.4.4",
+    "tsup": "^8.5.0",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "react": "^19.2.4",

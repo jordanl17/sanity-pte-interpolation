@@ -4,5 +4,5 @@
     "rootDir": ".",
     "outDir": "./dist"
   },
-  "include": ["src", "package.config.ts"]
+  "include": ["src", "tsup.config.ts"]
 }

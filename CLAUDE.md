@@ -38,7 +38,7 @@ Turborepo monorepo with two publishable npm packages and two dev apps.
 
 ## Build System
 
-- **Build tool**: `@sanity/pkg-utils` for both publishable packages
+- **Build tool**: `tsup` for `pte-interpolation-core` and `pte-interpolation-react`; `@sanity/pkg-utils` for `sanity-plugin-pte-interpolation`
 - **Output**: `dist/` with ESM (`.js`), CJS (`.cjs`), and TypeScript declarations (`.d.ts`)
 - **Local dev**: Workspace consumers import directly from `src/` via the `source` field in exports maps - no build needed during development
 - **Orchestration**: Turborepo handles task dependencies and caching
@@ -73,7 +73,7 @@ Turborepo monorepo with two publishable npm packages and two dev apps.
 ## File Conventions
 
 - Test files: `src/__tests__/*.test.{ts,tsx}` within each package
-- Package config: `package.config.ts` at each package root
+- Package config: `tsup.config.ts` for core/react packages, `package.config.ts` for the sanity plugin
 - TypeScript configs: `tsconfig.json` (IDE) + `tsconfig.build.json` (build output, excludes tests)
 - Schema types: `apps/studio/schemaTypes/`
 

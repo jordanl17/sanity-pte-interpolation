@@ -24,7 +24,6 @@
     "@commitlint/cli": "^20.4.2",
     "@commitlint/config-conventional": "^20.4.2",
     "@eslint/js": "^10.0.0",
-    "@sanity/pkg-utils": "^10.4.4",
     "@types/react": "^19.2.14",
     "@vitest/coverage-v8": "^4.0.18",
     "eslint": "^10.0.0",
