@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.1](https://github.com/jordanl17/sanity-pte-interpolation/compare/sanity-plugin-pte-interpolation-v1.2.0...sanity-plugin-pte-interpolation-v1.2.1) (2026-03-01)
+
+
+### Bug Fixes
+
+* improvements to build process ([d0264a8](https://github.com/jordanl17/sanity-pte-interpolation/commit/d0264a856a7702eeb3c8a70c41acffe84471c1fa))
+
 ## [1.2.0](https://github.com/jordanl17/sanity-pte-interpolation/compare/sanity-plugin-pte-interpolation-v1.1.1...sanity-plugin-pte-interpolation-v1.2.0) (2026-03-01)
 
 

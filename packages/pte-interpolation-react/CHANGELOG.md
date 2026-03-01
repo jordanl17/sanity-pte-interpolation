@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.2.1](https://github.com/jordanl17/sanity-pte-interpolation/compare/pte-interpolation-react-v1.2.0...pte-interpolation-react-v1.2.1) (2026-03-01)
+
+
+### Bug Fixes
+
+* improvements to build process ([d0264a8](https://github.com/jordanl17/sanity-pte-interpolation/commit/d0264a856a7702eeb3c8a70c41acffe84471c1fa))
+
+
+### Refactoring
+
+* migrate build system to tsup for core and react packages ([#22](https://github.com/jordanl17/sanity-pte-interpolation/issues/22)) ([6880208](https://github.com/jordanl17/sanity-pte-interpolation/commit/68802088843a39a534bada993664b9296e10e2be))
+
 ## [1.2.0](https://github.com/jordanl17/sanity-pte-interpolation/compare/pte-interpolation-react-v1.1.1...pte-interpolation-react-v1.2.0) (2026-03-01)
 
 
