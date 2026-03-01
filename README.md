@@ -1,7 +1,5 @@
 # sanity-pte-interpolation
 
-[![npm version](https://img.shields.io/npm/v/sanity-plugin-pte-interpolation.svg?style=flat-square)](https://www.npmjs.com/package/sanity-plugin-pte-interpolation) [![npm version](https://img.shields.io/npm/v/pte-interpolation-react.svg?style=flat-square)](https://www.npmjs.com/package/pte-interpolation-react) [![npm version](https://img.shields.io/npm/v/pte-interpolation-core.svg?style=flat-square)](https://www.npmjs.com/package/pte-interpolation-core)
-
 ![Demo](https://raw.githubusercontent.com/jordanl17/sanity-pte-interpolation/main/.github/assets/demo.png)
 
 Embed dynamic variables inside [Portable Text](https://portabletext.org/) content in [Sanity Studio](https://www.sanity.io/studio), then resolve them to real values at render time in React. Think mail merge for rich text - an editor writes "Hello, `{firstName}`!" and the frontend substitutes the actual value at runtime.
@@ -17,47 +15,6 @@ This project ships three independent, decoupled packages:
 | [`pte-interpolation-core`](./packages/pte-interpolation-core)                   | Framework-agnostic utilities for variable extraction and plain string interpolation             |
 
 See each package's README for full installation, usage, and API documentation.
-
-## How It Works
-
-```
-AUTHORING (Sanity Studio)                 RENDERING (React)
-───────────────────────────               ─────────────────────────
-Editor writes:                            App provides values:
-"Hello, [firstName]! Your                 { firstName: "Jo",
-email is [email]."                          email: "jo@example.com" }
-
-Stored as Portable Text with              Rendered as:
-inline pteInterpolationVariable           "Hello, Jo! Your
-objects containing variableKey            email is jo@example.com."
-```
-
-### Studio (authoring)
-
-```ts
-import {interpolationVariables} from 'sanity-plugin-pte-interpolation'
-
-defineField({
-  name: 'body',
-  type: 'array',
-  of: [
-    interpolationVariables([
-      {id: 'firstName', name: 'First name'},
-      {id: 'email', name: 'Email address'},
-    ]),
-  ],
-})
-```
-
-### React (rendering)
-
-```tsx
-import {InterpolatedPortableText} from 'pte-interpolation-react'
-;<InterpolatedPortableText
-  value={body}
-  interpolationValues={{firstName: 'Jo', email: 'jo@example.com'}}
-/>
-```
 
 ## Development
 

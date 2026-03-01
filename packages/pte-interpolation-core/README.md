@@ -4,7 +4,7 @@
 
 ![Demo](https://raw.githubusercontent.com/jordanl17/sanity-pte-interpolation/main/.github/assets/demo.png)
 
-Framework-agnostic utilities for [Portable Text](https://portabletext.org/) variable interpolation. Extract variable keys from PTE blocks and resolve them to plain strings - with zero dependencies.
+Framework-agnostic utilities for [Portable Text](https://portabletext.org/) variable interpolation. Extract variable keys from PTE blocks and resolve them to plain strings - with zero dependencies. Use this package when you need plain string output without a React dependency: email templates, PDF generation, Node.js scripts, SMS or push notifications, or any non-React framework (Vue, Svelte, Angular, etc.). For React rendering with rich text output, use [`pte-interpolation-react`](https://www.npmjs.com/package/pte-interpolation-react) instead - it re-exports everything from this package.
 
 Part of [sanity-pte-interpolation](https://github.com/jordanl17/sanity-pte-interpolation). For adding variable picker inline blocks to Sanity Studio, see [`sanity-plugin-pte-interpolation`](https://www.npmjs.com/package/sanity-plugin-pte-interpolation). For React rendering with rich text output, see [`pte-interpolation-react`](https://www.npmjs.com/package/pte-interpolation-react).
 
@@ -16,18 +16,6 @@ npm install pte-interpolation-core
 
 No peer dependencies required.
 
-## When to Use
-
-Use this package when you need plain string output from interpolated Portable Text - without a React dependency. Common use cases include:
-
-- Email templates (server-side rendering)
-- PDF generation
-- Node.js scripts and background jobs
-- SMS or push notification text
-- Any non-React framework (Vue, Svelte, Angular, etc.)
-
-If you are rendering in React and want rich text output, use [`pte-interpolation-react`](https://www.npmjs.com/package/pte-interpolation-react) instead - it re-exports everything from this package, so you get both APIs without installing core separately.
-
 ## Usage
 
 ### Extract variable keys
@@ -38,7 +26,7 @@ If you are rendering in React and want rich text output, use [`pte-interpolation
 import {extractVariableKeys} from 'pte-interpolation-core'
 
 const keys = extractVariableKeys(blocks)
-// ['firstName', 'email']
+// ['firstName', 'vouchersRemaining']
 ```
 
 ### Interpolate to a plain string
@@ -49,10 +37,10 @@ const keys = extractVariableKeys(blocks)
 import {interpolateToString} from 'pte-interpolation-core'
 
 const text = interpolateToString(blocks, {
-  firstName: 'Alice',
-  email: 'alice@example.com',
+  firstName: 'Sarah',
+  vouchersRemaining: '3',
 })
-// "Hello, Alice! Your email is alice@example.com."
+// "Hi, Sarah! You have 3 vouchers remaining."
 ```
 
 ### Custom fallback for missing values
@@ -61,23 +49,26 @@ By default, unresolved variables render as `{variableKey}` (e.g. `{firstName}`).
 
 ```ts
 const text = interpolateToString(blocks, {}, (variableKey) => `[${variableKey}]`)
-// "Hello, [firstName]! Your email is [email]."
+// "Hi, [firstName]! You have [vouchersRemaining] vouchers remaining."
 ```
 
-## Authoring Variables in Sanity Studio
+## Related Packages
 
 This package handles **resolution** of variable blocks that already exist in Portable Text. To add the variable picker to Sanity Studio's Portable Text Editor, use [`sanity-plugin-pte-interpolation`](https://www.npmjs.com/package/sanity-plugin-pte-interpolation):
 
 ```ts
+import {defineField} from 'sanity'
 import {interpolationVariables} from 'sanity-plugin-pte-interpolation'
 
 defineField({
-  name: 'body',
+  name: 'message',
   type: 'array',
   of: [
     interpolationVariables([
       {id: 'firstName', name: 'First name'},
-      {id: 'email', name: 'Email address'},
+      {id: 'vouchersRemaining', name: 'Vouchers remaining'},
+      {id: 'totalVouchers', name: 'Total vouchers'},
+      {id: 'expiryDate', name: 'Expiry date'},
     ]),
   ],
 })
@@ -91,9 +82,9 @@ Variable blocks in stored Portable Text look like this:
 {
   "_type": "block",
   "children": [
-    {"_type": "span", "text": "Hello, "},
+    {"_type": "span", "text": "Hi, "},
     {"_type": "pteInterpolationVariable", "variableKey": "firstName"},
-    {"_type": "span", "text": "!"}
+    {"_type": "span", "text": ","}
   ]
 }
 ```

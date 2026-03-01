@@ -16,10 +16,10 @@ npm install sanity-plugin-pte-interpolation
 
 ### Peer dependencies
 
-- `sanity` ^3.0.0 || ^4.0.0 || ^5.0.0
-- `react` ^18.0.0 || ^19.0.0
-- `@sanity/ui` ^2.0.0 || ^3.0.0
-- `@sanity/icons` ^3.0.0
+- `sanity ^3.0.0 || ^4.0.0 || ^5.0.0`
+- `react ^18.0.0 || ^19.0.0`
+- `@sanity/ui ^2.0.0 || ^3.0.0`
+- `@sanity/icons ^3.0.0`
 
 ## Usage
 
@@ -30,19 +30,30 @@ import {defineType, defineField} from 'sanity'
 import {interpolationVariables} from 'sanity-plugin-pte-interpolation'
 
 export default defineType({
-  name: 'email',
-  title: 'Email',
+  name: 'promoCard',
+  title: 'Promo card',
   type: 'document',
   fields: [
     defineField({
-      name: 'body',
-      title: 'Body',
+      name: 'message',
+      title: 'Message',
+      description:
+        'Personalised card message. Use the variable picker to insert recipient-specific values.',
       type: 'array',
       of: [
         interpolationVariables([
-          {id: 'firstName', name: 'First name', description: 'First name of the recipient'},
-          {id: 'lastName', name: 'Last name', description: 'Last name of the recipient'},
-          {id: 'email', name: 'Email address', description: 'Email address of the recipient'},
+          {id: 'firstName', name: 'First name', description: "Recipient's first name"},
+          {
+            id: 'vouchersRemaining',
+            name: 'Vouchers remaining',
+            description: 'Number of vouchers still available for this recipient',
+          },
+          {
+            id: 'totalVouchers',
+            name: 'Total vouchers',
+            description: 'Total number of vouchers allocated',
+          },
+          {id: 'expiryDate', name: 'Expiry date', description: 'Date the vouchers expire'},
         ]),
       ],
     }),
@@ -71,20 +82,45 @@ const customBlock = defineArrayMember({
 interpolationVariables([{id: 'firstName', name: 'First name'}], customBlock)
 ```
 
-## Rendering Variables
+## How It Works
+
+Think mail merge for rich text - an editor writes "Hello, `{firstName}`!" and the frontend substitutes the actual value at runtime.
+
+```
+AUTHORING (Sanity Studio)                 RENDERING (React)
+───────────────────────────               ─────────────────────────────────
+Editor writes:                            App provides values:
+"Hi [firstName], you have                 { firstName: "Sarah",
+[vouchersRemaining] of                      vouchersRemaining: "3",
+[totalVouchers] vouchers                    totalVouchers: "5",
+remaining until [expiryDate]."              expiryDate: "30 Feb 2026" }
+
+Stored as Portable Text with              Rendered as:
+inline pteInterpolationVariable           "Hi Sarah, you have 3 of 5
+objects containing variableKey            vouchers remaining until
+                                          30 Feb 2026."
+```
+
+## Related Packages
 
 This package handles the **authoring** side. To resolve variables to actual values in your frontend, use [`pte-interpolation-react`](https://www.npmjs.com/package/pte-interpolation-react):
 
 ```tsx
 import {InterpolatedPortableText} from 'pte-interpolation-react'
-;<InterpolatedPortableText
-  value={body}
-  interpolationValues={{
-    firstName: 'Jo',
-    lastName: 'Smith',
-    email: 'jo@example.com',
-  }}
-/>
+
+function PromoCard({message, recipient}) {
+  return (
+    <InterpolatedPortableText
+      value={message}
+      interpolationValues={{
+        firstName: recipient.firstName,
+        vouchersRemaining: String(recipient.vouchersRemaining),
+        totalVouchers: String(recipient.totalVouchers),
+        expiryDate: recipient.expiryDate,
+      }}
+    />
+  )
+}
 ```
 
 For framework-agnostic use cases - plain string output, variable key extraction, server-side rendering, or any non-React environment - use [`pte-interpolation-core`](https://www.npmjs.com/package/pte-interpolation-core) directly:
@@ -92,9 +128,9 @@ For framework-agnostic use cases - plain string output, variable key extraction,
 ```ts
 import {interpolateToString, extractVariableKeys} from 'pte-interpolation-core'
 
-const keys = extractVariableKeys(blocks) // ['firstName', 'email']
-const text = interpolateToString(blocks, {firstName: 'Jo', email: 'jo@example.com'})
-// "Hello, Jo! Your email is jo@example.com."
+const keys = extractVariableKeys(blocks) // ['firstName', 'vouchersRemaining']
+const text = interpolateToString(blocks, {firstName: 'Sarah', vouchersRemaining: '3'})
+// "Hi, Sarah! You have 3 vouchers remaining."
 ```
 
 ## Data Shape
@@ -105,9 +141,9 @@ Variables are stored as inline objects within Portable Text blocks:
 {
   "_type": "block",
   "children": [
-    {"_type": "span", "text": "Hello, "},
+    {"_type": "span", "text": "Hi, "},
     {"_type": "pteInterpolationVariable", "variableKey": "firstName"},
-    {"_type": "span", "text": "!"}
+    {"_type": "span", "text": ","}
   ]
 }
 ```

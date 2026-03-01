@@ -16,7 +16,7 @@ npm install pte-interpolation-react @portabletext/react
 
 ### Peer dependencies
 
-- `react` ^18.0.0 || ^19.0.0
+- `react ^18.0.0 || ^19.0.0`
 
 ## Usage
 
@@ -27,21 +27,22 @@ npm install pte-interpolation-react @portabletext/react
 ```tsx
 import {InterpolatedPortableText} from 'pte-interpolation-react'
 
-function EmailPreview({body, recipient}) {
+function PromoCard({message, recipient}) {
   return (
     <InterpolatedPortableText
-      value={body}
+      value={message}
       interpolationValues={{
         firstName: recipient.firstName,
-        lastName: recipient.lastName,
-        email: recipient.email,
+        vouchersRemaining: String(recipient.vouchersRemaining),
+        totalVouchers: String(recipient.totalVouchers),
+        expiryDate: recipient.expiryDate,
       }}
     />
   )
 }
 ```
 
-Variables render as `<span data-variable-key="firstName">Jo</span>`, making them easy to target with CSS for styling or highlighting.
+Variables render as `<span data-variable-key="firstName">Sarah</span>`, making them easy to target with CSS for styling or highlighting.
 
 ### With custom Portable Text components
 
@@ -80,7 +81,7 @@ import {useMemo} from 'react'
 import {PortableText} from '@portabletext/react'
 import {createInterpolationComponents} from 'pte-interpolation-react'
 
-function EmailPreview({body, values, customComponents}) {
+function PromoCard({message, values, customComponents}) {
   const components = useMemo(() => {
     const interpolation = createInterpolationComponents(values)
     return {
@@ -92,24 +93,27 @@ function EmailPreview({body, values, customComponents}) {
     }
   }, [values, customComponents])
 
-  return <PortableText value={body} components={components} />
+  return <PortableText value={message} components={components} />
 }
 ```
 
-## Authoring Variables in Sanity Studio
+## Related Packages
 
 This package handles the **rendering** side. To add the variable picker to Sanity Studio's Portable Text Editor, use [`sanity-plugin-pte-interpolation`](https://www.npmjs.com/package/sanity-plugin-pte-interpolation):
 
 ```ts
+import {defineField} from 'sanity'
 import {interpolationVariables} from 'sanity-plugin-pte-interpolation'
 
 defineField({
-  name: 'body',
+  name: 'message',
   type: 'array',
   of: [
     interpolationVariables([
       {id: 'firstName', name: 'First name'},
-      {id: 'email', name: 'Email address'},
+      {id: 'vouchersRemaining', name: 'Vouchers remaining'},
+      {id: 'totalVouchers', name: 'Total vouchers'},
+      {id: 'expiryDate', name: 'Expiry date'},
     ]),
   ],
 })
@@ -123,9 +127,9 @@ Variable blocks in stored Portable Text look like this:
 {
   "_type": "block",
   "children": [
-    {"_type": "span", "text": "Hello, "},
+    {"_type": "span", "text": "Hi, "},
     {"_type": "pteInterpolationVariable", "variableKey": "firstName"},
-    {"_type": "span", "text": "!"}
+    {"_type": "span", "text": ","}
   ]
 }
 ```
