@@ -3,10 +3,13 @@ import {
   extractVariableKeys,
   getMissingVariableKeys,
   interpolateToString,
+  InterpolationProvider,
+  useInterpolationValues,
   VARIABLE_TYPE_PREFIX,
 } from 'pte-interpolation-react'
 import type {
   InterpolationFallback,
+  InterpolationProviderProps,
   InterpolationValues,
   PortableTextBlockLike,
   PortableTextChild,
@@ -21,6 +24,18 @@ describe('re-exports from pte-interpolation-core', () => {
     })
   })
 
+  describe('InterpolationProvider', () => {
+    it('is exported as a function', () => {
+      expect(typeof InterpolationProvider).toBe('function')
+    })
+  })
+
+  describe('useInterpolationValues', () => {
+    it('is exported as a function', () => {
+      expect(typeof useInterpolationValues).toBe('function')
+    })
+  })
+
   describe('extractVariableKeys', () => {
     it('extracts multiple variable keys', () => {
       const keys = extractVariableKeys(multipleVariablesBlock)
@@ -30,7 +45,7 @@ describe('re-exports from pte-interpolation-core', () => {
 
   describe('getMissingVariableKeys', () => {
     it('returns missing variable keys', () => {
-      const missing = getMissingVariableKeys(multipleVariablesBlock, {firstName: 'Alice'})
+      const missing = getMissingVariableKeys(multipleVariablesBlock, {firstName: 'Patrick'})
       expect(missing).toEqual(['lastName', 'email'])
     })
   })
@@ -44,9 +59,17 @@ describe('re-exports from pte-interpolation-core', () => {
   })
 
   describe('type exports', () => {
+    it('InterpolationProviderProps type accepts valid props shape', () => {
+      const props: InterpolationProviderProps = {
+        interpolationValues: {name: 'Patrick'},
+        children: null,
+      }
+      expect(props.interpolationValues).toEqual({name: 'Patrick'})
+    })
+
     it('InterpolationValues type works as a record of strings', () => {
-      const values: InterpolationValues = {firstName: 'Alice', lastName: 'Smith'}
-      expect(values).toEqual({firstName: 'Alice', lastName: 'Smith'})
+      const values: InterpolationValues = {firstName: 'Patrick', lastName: 'Pickles'}
+      expect(values).toEqual({firstName: 'Patrick', lastName: 'Pickles'})
     })
 
     it('PortableTextBlockLike type is compatible with fixture blocks', () => {

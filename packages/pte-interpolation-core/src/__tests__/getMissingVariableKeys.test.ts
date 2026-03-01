@@ -22,14 +22,14 @@ describe('getMissingVariableKeys', () => {
   })
 
   it('returns empty array when all variables provided', () => {
-    expect(getMissingVariableKeys(singleVariableBlock, {firstName: 'Alice'})).toEqual([])
+    expect(getMissingVariableKeys(singleVariableBlock, {firstName: 'Patrick'})).toEqual([])
   })
 
   it('returns empty array when all multiple variables provided', () => {
     expect(
       getMissingVariableKeys(multipleVariablesBlock, {
-        firstName: 'Alice',
-        lastName: 'Smith',
+        firstName: 'Patrick',
+        lastName: 'Pickles',
         email: 'a@b.com',
       }),
     ).toEqual([])
@@ -40,7 +40,7 @@ describe('getMissingVariableKeys', () => {
   })
 
   it('returns only missing keys when some values provided', () => {
-    expect(getMissingVariableKeys(multipleVariablesBlock, {firstName: 'Alice'})).toEqual([
+    expect(getMissingVariableKeys(multipleVariablesBlock, {firstName: 'Patrick'})).toEqual([
       'lastName',
       'email',
     ])
@@ -51,7 +51,7 @@ describe('getMissingVariableKeys', () => {
   })
 
   it('returns missing keys across multiple blocks', () => {
-    expect(getMissingVariableKeys(multiBlockContent, {firstName: 'Alice'})).toEqual(['email'])
+    expect(getMissingVariableKeys(multiBlockContent, {firstName: 'Patrick'})).toEqual(['email'])
   })
 
   it('deduplicates missing keys', () => {
@@ -67,14 +67,14 @@ describe('getMissingVariableKeys', () => {
   })
 
   it('returns missing keys for consecutive variables', () => {
-    expect(getMissingVariableKeys(consecutiveVariablesBlock, {firstName: 'Alice'})).toEqual([
+    expect(getMissingVariableKeys(consecutiveVariablesBlock, {firstName: 'Patrick'})).toEqual([
       'lastName',
     ])
   })
 
   it('ignores extra values not in blocks', () => {
     expect(
-      getMissingVariableKeys(singleVariableBlock, {firstName: 'Alice', extraKey: 'ignored'}),
+      getMissingVariableKeys(singleVariableBlock, {firstName: 'Patrick', extraKey: 'ignored'}),
     ).toEqual([])
   })
 

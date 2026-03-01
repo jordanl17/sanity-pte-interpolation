@@ -72,6 +72,56 @@ By default, unresolved variables render as `{variableKey}` (e.g. `{firstName}`).
 />
 ```
 
+### Context provider
+
+Use `<InterpolationProvider>` to supply `interpolationValues` (and optionally `fallback`) at a tree level, removing the need to thread these props through every `<InterpolatedPortableText>` instance:
+
+```tsx
+import {InterpolationProvider, InterpolatedPortableText} from 'pte-interpolation-react'
+
+function App({recipient}) {
+  return (
+    <InterpolationProvider
+      interpolationValues={{
+        firstName: recipient.firstName,
+        email: recipient.email,
+      }}
+    >
+      <PromoCard />
+      <WelcomeMessage />
+    </InterpolationProvider>
+  )
+}
+
+function PromoCard() {
+  return <InterpolatedPortableText value={promoContent} />
+}
+```
+
+When `interpolationValues` is passed directly as a prop to `<InterpolatedPortableText>`, it overrides the provider entirely - the two objects are not merged. If you need to extend the provider's values, merge explicitly:
+
+```tsx
+const contextValues = useInterpolationValues()
+<InterpolatedPortableText
+  interpolationValues={{...contextValues?.interpolationValues, firstName: 'Alex'}}
+  value={body}
+/>
+```
+
+### Headless usage with `useInterpolationValues`
+
+Access the current provider's values directly in your own components:
+
+```tsx
+import {useInterpolationValues} from 'pte-interpolation-react'
+
+function MyComponent() {
+  const context = useInterpolationValues()
+  // context is undefined when no provider exists
+  // context.interpolationValues and context.fallback when a provider exists
+}
+```
+
 ### Low-level API
 
 If you need full control over component merging, use `createInterpolationComponents` directly with `<PortableText>` from `@portabletext/react`:
@@ -151,14 +201,33 @@ The `variableKey` maps to the `id` defined in the Studio variable definitions an
 
 ### `<InterpolatedPortableText>`
 
-| Prop                  | Type                              | Description                                                                |
-| --------------------- | --------------------------------- | -------------------------------------------------------------------------- |
-| `value`               | `PortableTextBlock[]`             | Portable Text content from Sanity                                          |
-| `interpolationValues` | `Record<string, string>`          | Map of variable IDs to their resolved values                               |
-| `components`          | `PortableTextComponents`          | Optional custom Portable Text components (merged with interpolation types) |
-| `fallback`            | `(variableKey: string) => string` | Optional function for unresolved variables (defaults to `{variableKey}`)   |
+| Prop                  | Type                              | Description                                                                                          |
+| --------------------- | --------------------------------- | ---------------------------------------------------------------------------------------------------- |
+| `value`               | `PortableTextBlock[]`             | Portable Text content from Sanity                                                                    |
+| `interpolationValues` | `Record<string, string>`          | Optional map of variable IDs to values. Required unless an `<InterpolationProvider>` is in the tree. |
+| `components`          | `PortableTextComponents`          | Optional custom Portable Text components (merged with interpolation types)                           |
+| `fallback`            | `(variableKey: string) => string` | Optional function for unresolved variables (defaults to `{variableKey}`)                             |
 
 Also accepts all other props from `@portabletext/react`'s `<PortableText>`.
+
+### `<InterpolationProvider>`
+
+| Prop                  | Type                              | Description                                            |
+| --------------------- | --------------------------------- | ------------------------------------------------------ |
+| `interpolationValues` | `Record<string, string>`          | Map of variable IDs to values, provided to the subtree |
+| `fallback`            | `(variableKey: string) => string` | Optional fallback for unresolved variables             |
+| `children`            | `ReactNode`                       | React subtree                                          |
+
+### `useInterpolationValues()`
+
+Returns the current `InterpolationProvider` context value, or `undefined` when no provider exists in the tree.
+
+```ts
+{
+  interpolationValues: Record<string, string>
+  fallback?: (variableKey: string) => string
+} | undefined
+```
 
 ### `createInterpolationComponents(values, fallback?)`
 

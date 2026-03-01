@@ -1,18 +1,23 @@
 import {PortableText} from '@portabletext/react'
 import {useMemo} from 'react'
 
+import {useInterpolationValues} from './InterpolationContext'
 import {createInterpolationComponents} from './createInterpolationComponents'
 import type {InterpolatedPortableTextProps} from './types'
 
 /** @public */
 export function InterpolatedPortableText({
-  interpolationValues,
+  interpolationValues: interpolationValuesProp,
   components: userComponents,
-  fallback,
+  fallback: fallbackProp,
   ...rest
 }: InterpolatedPortableTextProps) {
+  const contextValue = useInterpolationValues()
+
   const mergedComponents = useMemo(() => {
-    const interpolationComponents = createInterpolationComponents(interpolationValues, fallback)
+    const resolvedValues = interpolationValuesProp ?? contextValue?.interpolationValues ?? {}
+    const resolvedFallback = fallbackProp ?? contextValue?.fallback
+    const interpolationComponents = createInterpolationComponents(resolvedValues, resolvedFallback)
 
     if (!userComponents) {
       return interpolationComponents
@@ -25,7 +30,7 @@ export function InterpolatedPortableText({
         ...interpolationComponents.types,
       },
     }
-  }, [interpolationValues, fallback, userComponents])
+  }, [interpolationValuesProp, contextValue, fallbackProp, userComponents])
 
   return <PortableText {...rest} components={mergedComponents} />
 }

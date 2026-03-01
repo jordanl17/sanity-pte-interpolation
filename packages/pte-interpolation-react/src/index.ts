@@ -1,4 +1,5 @@
 export {InterpolatedPortableText} from './InterpolatedPortableText'
+export {InterpolationProvider, useInterpolationValues} from './InterpolationContext'
 export {createInterpolationComponents} from './createInterpolationComponents'
 export {VARIABLE_TYPE_PREFIX} from './constants'
 export {
@@ -9,6 +10,7 @@ export {
 export type {
   InterpolatedPortableTextProps,
   InterpolationFallback,
+  InterpolationProviderProps,
   InterpolationValues,
   PteInterpolationVariableBlock,
 } from './types'

@@ -12,27 +12,20 @@ import {
 } from './fixtures'
 
 describe('createInterpolationComponents', () => {
-  it('returns object with types.pteInterpolationVariable component', () => {
-    const components = createInterpolationComponents({firstName: 'Jordan'})
-    expect(components.types).toBeDefined()
-    expect(components.types).toHaveProperty('pteInterpolationVariable')
+  it('returns components with only a types key registered under VARIABLE_TYPE_PREFIX', () => {
+    const components = createInterpolationComponents({firstName: 'Patrick'})
+    expect(Object.keys(components)).toEqual(['types'])
+    expect(Object.keys(components.types!)).toEqual([VARIABLE_TYPE_PREFIX])
   })
 
-  it('resolves variable value from the values map', () => {
-    const components = createInterpolationComponents({firstName: 'Jordan'})
-    const html = renderToStaticMarkup(
-      <PortableText value={singleVariableBlock} components={components} />,
-    )
-    expect(html).toContain('Jordan')
-    expect(html).toContain('data-variable-key="firstName"')
-  })
-
-  it('renders {variableKey} fallback for missing values', () => {
+  it('renders {variableKey} fallback for all missing values', () => {
     const components = createInterpolationComponents({})
     const html = renderToStaticMarkup(
-      <PortableText value={singleVariableBlock} components={components} />,
+      <PortableText value={multipleVariablesBlock} components={components} />,
     )
     expect(html).toContain('{firstName}')
+    expect(html).toContain('{lastName}')
+    expect(html).toContain('{email}')
   })
 
   it('renders empty string when value is explicitly ""', () => {
@@ -55,36 +48,16 @@ describe('createInterpolationComponents', () => {
 
   it('renders inside <span> with data-variable-key attribute', () => {
     const components = createInterpolationComponents({
-      firstName: 'Jordan',
-      lastName: 'Lawrence',
-      email: 'jordan@example.com',
+      firstName: 'Patrick',
+      lastName: 'Pickles',
+      email: 'patrick@example.com',
     })
     const html = renderToStaticMarkup(
       <PortableText value={multipleVariablesBlock} components={components} />,
     )
-    expect(html).toContain('<span data-variable-key="firstName">Jordan</span>')
-    expect(html).toContain('<span data-variable-key="lastName">Lawrence</span>')
-    expect(html).toContain('<span data-variable-key="email">jordan@example.com</span>')
-  })
-
-  it('returns components with only a types key', () => {
-    const components = createInterpolationComponents({firstName: 'Jordan'})
-    expect(Object.keys(components)).toEqual(['types'])
-  })
-
-  it('registers component under VARIABLE_TYPE_PREFIX key', () => {
-    const components = createInterpolationComponents({firstName: 'Jordan'})
-    expect(Object.keys(components.types!)).toEqual([VARIABLE_TYPE_PREFIX])
-  })
-
-  it('falls back for all variables when values map is empty', () => {
-    const components = createInterpolationComponents({})
-    const html = renderToStaticMarkup(
-      <PortableText value={multipleVariablesBlock} components={components} />,
-    )
-    expect(html).toContain('{firstName}')
-    expect(html).toContain('{lastName}')
-    expect(html).toContain('{email}')
+    expect(html).toContain('<span data-variable-key="firstName">Patrick</span>')
+    expect(html).toContain('<span data-variable-key="lastName">Pickles</span>')
+    expect(html).toContain('<span data-variable-key="email">patrick@example.com</span>')
   })
 
   it('escapes HTML special characters in values', () => {
@@ -97,19 +70,19 @@ describe('createInterpolationComponents', () => {
   })
 
   it('renders consecutive variables without interference', () => {
-    const components = createInterpolationComponents({firstName: 'Jordan', lastName: 'Lawrence'})
+    const components = createInterpolationComponents({firstName: 'Patrick', lastName: 'Pickles'})
     const html = renderToStaticMarkup(
       <PortableText value={consecutiveVariablesBlock} components={components} />,
     )
-    expect(html).toContain('<span data-variable-key="firstName">Jordan</span>')
-    expect(html).toContain('<span data-variable-key="lastName">Lawrence</span>')
+    expect(html).toContain('<span data-variable-key="firstName">Patrick</span>')
+    expect(html).toContain('<span data-variable-key="lastName">Pickles</span>')
   })
 
   it('renders a variable as the only child in a block', () => {
-    const components = createInterpolationComponents({firstName: 'Jordan'})
+    const components = createInterpolationComponents({firstName: 'Patrick'})
     const html = renderToStaticMarkup(
       <PortableText value={variableOnlyBlock} components={components} />,
     )
-    expect(html).toContain('<span data-variable-key="firstName">Jordan</span>')
+    expect(html).toContain('<span data-variable-key="firstName">Patrick</span>')
   })
 })

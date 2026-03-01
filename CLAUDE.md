@@ -77,6 +77,12 @@ Turborepo monorepo with two publishable npm packages and two dev apps.
 - TypeScript configs: `tsconfig.json` (IDE) + `tsconfig.build.json` (build output, excludes tests)
 - Schema types: `apps/studio/schemaTypes/`
 
+## Testing
+
+- Vitest with jsdom environment (configured at root `vitest.config.ts`)
+- For component and hook tests in `pte-interpolation-react`, use `@testing-library/react` (`render`, `renderHook`) - not `react-dom/server`
+- Use `renderHook` for testing hooks directly; use `render` + `container.innerHTML` assertions for component output tests
+
 ## Sanity Project
 
 - Project ID: `i2zyueht`

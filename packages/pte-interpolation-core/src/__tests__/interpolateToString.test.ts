@@ -19,7 +19,7 @@ describe('interpolateToString', () => {
   })
 
   it('resolves a single variable from values', () => {
-    expect(interpolateToString(singleVariableBlock, {firstName: 'Alice'})).toBe('Hello, Alice!')
+    expect(interpolateToString(singleVariableBlock, {firstName: 'Patrick'})).toBe('Hello, Patrick!')
   })
 
   it('uses default fallback for missing variables', () => {
@@ -37,23 +37,23 @@ describe('interpolateToString', () => {
 
   it('resolves consecutive variables', () => {
     expect(
-      interpolateToString(consecutiveVariablesBlock, {firstName: 'Alice', lastName: 'Smith'}),
-    ).toBe('AliceSmith')
+      interpolateToString(consecutiveVariablesBlock, {firstName: 'Patrick', lastName: 'Pickles'}),
+    ).toBe('PatrickPickles')
   })
 
   it('joins multiple blocks with newlines', () => {
     expect(
-      interpolateToString(multiBlockContent, {firstName: 'Alice', email: 'alice@example.com'}),
-    ).toBe('Dear Alice,\nYour email is alice@example.com.')
+      interpolateToString(multiBlockContent, {firstName: 'Patrick', email: 'patrick@example.com'}),
+    ).toBe('Dear Patrick,\nYour email is patrick@example.com.')
   })
 
   it('resolves multiple variables in one block', () => {
     expect(
       interpolateToString(multipleVariablesBlock, {
-        firstName: 'Alice',
-        lastName: 'Smith',
-        email: 'alice@example.com',
+        firstName: 'Patrick',
+        lastName: 'Pickles',
+        email: 'patrick@example.com',
       }),
-    ).toBe('Name: Alice Smith, Email: alice@example.com')
+    ).toBe('Name: Patrick Pickles, Email: patrick@example.com')
   })
 })

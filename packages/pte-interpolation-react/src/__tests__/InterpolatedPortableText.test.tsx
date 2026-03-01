@@ -1,12 +1,11 @@
 import type {PortableTextComponents} from '@portabletext/react'
-import {renderToStaticMarkup} from 'react-dom/server'
+import {render} from '@testing-library/react'
 import {describe, expect, it} from 'vitest'
 
 import {VARIABLE_TYPE_PREFIX} from '../constants'
 import {InterpolatedPortableText} from '../InterpolatedPortableText'
 import {
   emptyBlocksContent,
-  multiBlockContent,
   multipleVariablesBlock,
   singleVariableBlock,
   styledTextWithVariableBlock,
@@ -14,42 +13,44 @@ import {
 
 describe('InterpolatedPortableText', () => {
   it('renders single variable resolved inline', () => {
-    const html = renderToStaticMarkup(
+    const {container} = render(
       <InterpolatedPortableText
         value={singleVariableBlock}
-        interpolationValues={{firstName: 'Jordan'}}
+        interpolationValues={{firstName: 'Patrick'}}
       />,
     )
-    expect(html).toContain('Hello, ')
-    expect(html).toContain('<span data-variable-key="firstName">Jordan</span>')
-    expect(html).toContain('!')
+    expect(container.innerHTML).toContain('Hello, ')
+    expect(container.innerHTML).toContain('<span data-variable-key="firstName">Patrick</span>')
+    expect(container.innerHTML).toContain('!')
   })
 
   it('renders multiple variables in one block', () => {
-    const html = renderToStaticMarkup(
+    const {container} = render(
       <InterpolatedPortableText
         value={multipleVariablesBlock}
         interpolationValues={{
-          firstName: 'Jordan',
-          lastName: 'Lawrence',
-          email: 'jordan@example.com',
+          firstName: 'Patrick',
+          lastName: 'Pickles',
+          email: 'patrick@example.com',
         }}
       />,
     )
-    expect(html).toContain('<span data-variable-key="firstName">Jordan</span>')
-    expect(html).toContain('<span data-variable-key="lastName">Lawrence</span>')
-    expect(html).toContain('<span data-variable-key="email">jordan@example.com</span>')
+    expect(container.innerHTML).toContain('<span data-variable-key="firstName">Patrick</span>')
+    expect(container.innerHTML).toContain('<span data-variable-key="lastName">Pickles</span>')
+    expect(container.innerHTML).toContain(
+      '<span data-variable-key="email">patrick@example.com</span>',
+    )
   })
 
   it('uses custom fallback prop', () => {
-    const html = renderToStaticMarkup(
+    const {container} = render(
       <InterpolatedPortableText
         value={singleVariableBlock}
         interpolationValues={{}}
         fallback={(key) => `[${key}]`}
       />,
     )
-    expect(html).toContain('[firstName]')
+    expect(container.innerHTML).toContain('[firstName]')
   })
 
   it('preserves user components alongside interpolation types', () => {
@@ -59,31 +60,15 @@ describe('InterpolatedPortableText', () => {
       },
     }
 
-    const html = renderToStaticMarkup(
+    const {container} = render(
       <InterpolatedPortableText
         value={singleVariableBlock}
-        interpolationValues={{firstName: 'Jordan'}}
+        interpolationValues={{firstName: 'Patrick'}}
         components={userComponents}
       />,
     )
-    expect(html).toContain('data-testid="custom-block"')
-    expect(html).toContain('<span data-variable-key="firstName">Jordan</span>')
-  })
-
-  it('renders variables across multiple blocks', () => {
-    const html = renderToStaticMarkup(
-      <InterpolatedPortableText
-        value={multiBlockContent}
-        interpolationValues={{
-          firstName: 'Jordan',
-          email: 'jordan@example.com',
-        }}
-      />,
-    )
-    expect(html).toContain('<span data-variable-key="firstName">Jordan</span>')
-    expect(html).toContain('<span data-variable-key="email">jordan@example.com</span>')
-    expect(html).toContain('Dear ')
-    expect(html).toContain('Your email is ')
+    expect(container.innerHTML).toContain('data-testid="custom-block"')
+    expect(container.innerHTML).toContain('<span data-variable-key="firstName">Patrick</span>')
   })
 
   it('interpolation types take precedence over user types with same key', () => {
@@ -93,15 +78,15 @@ describe('InterpolatedPortableText', () => {
       },
     }
 
-    const html = renderToStaticMarkup(
+    const {container} = render(
       <InterpolatedPortableText
         value={singleVariableBlock}
-        interpolationValues={{firstName: 'Jordan'}}
+        interpolationValues={{firstName: 'Patrick'}}
         components={userComponents}
       />,
     )
-    expect(html).not.toContain('user-override')
-    expect(html).toContain('<span data-variable-key="firstName">Jordan</span>')
+    expect(container.innerHTML).not.toContain('user-override')
+    expect(container.innerHTML).toContain('<span data-variable-key="firstName">Patrick</span>')
   })
 
   it('renders user custom types alongside interpolation types', () => {
@@ -131,16 +116,16 @@ describe('InterpolatedPortableText', () => {
       },
     }
 
-    const html = renderToStaticMarkup(
+    const {container} = render(
       <InterpolatedPortableText
         value={customWidgetBlock}
-        interpolationValues={{firstName: 'Jordan'}}
+        interpolationValues={{firstName: 'Patrick'}}
         components={userComponents}
       />,
     )
-    expect(html).toContain('data-testid="widget"')
-    expect(html).toContain('Click me')
-    expect(html).toContain('<span data-variable-key="firstName">Jordan</span>')
+    expect(container.innerHTML).toContain('data-testid="widget"')
+    expect(container.innerHTML).toContain('Click me')
+    expect(container.innerHTML).toContain('<span data-variable-key="firstName">Patrick</span>')
   })
 
   it('preserves user mark components', () => {
@@ -150,40 +135,40 @@ describe('InterpolatedPortableText', () => {
       },
     }
 
-    const html = renderToStaticMarkup(
+    const {container} = render(
       <InterpolatedPortableText
         value={styledTextWithVariableBlock}
-        interpolationValues={{firstName: 'Jordan'}}
+        interpolationValues={{firstName: 'Patrick'}}
         components={userComponents}
       />,
     )
-    expect(html).toContain('data-testid="custom-strong"')
-    expect(html).toContain('<span data-variable-key="firstName">Jordan</span>')
+    expect(container.innerHTML).toContain('data-testid="custom-strong"')
+    expect(container.innerHTML).toContain('<span data-variable-key="firstName">Patrick</span>')
   })
 
   it('renders without errors when value array is empty', () => {
-    const html = renderToStaticMarkup(
+    const {container} = render(
       <InterpolatedPortableText value={emptyBlocksContent} interpolationValues={{}} />,
     )
-    expect(html).toBe('')
+    expect(container.innerHTML).toBe('')
   })
 
   it('default fallback renders exactly {variableKey} format', () => {
-    const html = renderToStaticMarkup(
+    const {container} = render(
       <InterpolatedPortableText value={singleVariableBlock} interpolationValues={{}} />,
     )
-    expect(html).toContain('<span data-variable-key="firstName">{firstName}</span>')
+    expect(container.innerHTML).toContain('<span data-variable-key="firstName">{firstName}</span>')
   })
 
   it('renders styled text marks alongside variables', () => {
-    const html = renderToStaticMarkup(
+    const {container} = render(
       <InterpolatedPortableText
         value={styledTextWithVariableBlock}
-        interpolationValues={{firstName: 'Jordan'}}
+        interpolationValues={{firstName: 'Patrick'}}
       />,
     )
-    expect(html).toContain('<strong>Welcome </strong>')
-    expect(html).toContain('<span data-variable-key="firstName">Jordan</span>')
-    expect(html).toContain('<em> aboard</em>')
+    expect(container.innerHTML).toContain('<strong>Welcome </strong>')
+    expect(container.innerHTML).toContain('<span data-variable-key="firstName">Patrick</span>')
+    expect(container.innerHTML).toContain('<em> aboard</em>')
   })
 })

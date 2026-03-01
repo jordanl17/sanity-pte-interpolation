@@ -1,4 +1,5 @@
 import type {PortableTextComponents, PortableTextProps} from '@portabletext/react'
+import type {ReactNode} from 'react'
 import type {InterpolationFallback, InterpolationValues} from 'pte-interpolation-core'
 
 export type {InterpolationFallback, InterpolationValues} from 'pte-interpolation-core'
@@ -12,7 +13,14 @@ export interface PteInterpolationVariableBlock {
 
 /** @public */
 export interface InterpolatedPortableTextProps extends Omit<PortableTextProps, 'components'> {
-  interpolationValues: InterpolationValues
+  interpolationValues?: InterpolationValues
   components?: PortableTextComponents
   fallback?: InterpolationFallback
+}
+
+/** @public */
+export interface InterpolationProviderProps {
+  interpolationValues: InterpolationValues
+  fallback?: InterpolationFallback
+  children: ReactNode
 }
