@@ -1,7 +1,11 @@
 export {InterpolatedPortableText} from './InterpolatedPortableText'
 export {createInterpolationComponents} from './createInterpolationComponents'
 export {VARIABLE_TYPE_PREFIX} from './constants'
-export {extractVariableKeys, interpolateToString} from 'pte-interpolation-core'
+export {
+  extractVariableKeys,
+  getMissingVariableKeys,
+  interpolateToString,
+} from 'pte-interpolation-core'
 export type {
   InterpolatedPortableTextProps,
   InterpolationFallback,

@@ -28,6 +28,7 @@ Turborepo monorepo with two publishable npm packages and two dev apps.
 | `pnpm dev`            | Start all dev servers in parallel |
 | `pnpm dev:studio`     | Start Sanity Studio dev server    |
 | `pnpm dev:test-app`   | Start Vite test app dev server    |
+| `pnpm check`          | Build packages, lint, type-check  |
 | `pnpm lint`           | Run ESLint across the monorepo    |
 | `pnpm format`         | Format all files with Prettier    |
 | `pnpm format:check`   | Check formatting without writing  |
@@ -66,7 +67,7 @@ Turborepo monorepo with two publishable npm packages and two dev apps.
 
 ## Workflow
 
-- **Verification Before Done**: Never mark a task complete without proving it works - run `pnpm build:packages`, `pnpm lint`, `pnpm type-check`, `pnpm test`.
+- **Verification Before Done**: Never mark a task complete without proving it works - run `pnpm check && pnpm test`.
 - **Simplicity First**: Minimal code impact. Find root causes. No temporary fixes.
 
 ## File Conventions

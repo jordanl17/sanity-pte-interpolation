@@ -52,6 +52,17 @@ const text = interpolateToString(blocks, {}, (variableKey) => `[${variableKey}]`
 // "Hi, [firstName]! You have [vouchersRemaining] vouchers remaining."
 ```
 
+### Detect missing variables
+
+`getMissingVariableKeys` returns the variable keys present in PTE content but absent from the provided values map - useful for validating before sending emails, notifications, or other interpolated content:
+
+```ts
+import {getMissingVariableKeys} from 'pte-interpolation-core'
+
+const missing = getMissingVariableKeys(blocks, {firstName: 'Sarah'})
+// ['vouchersRemaining']
+```
+
 ## Related Packages
 
 This package handles **resolution** of variable blocks that already exist in Portable Text. To add the variable picker to Sanity Studio's Portable Text Editor, use [`sanity-plugin-pte-interpolation`](https://www.npmjs.com/package/sanity-plugin-pte-interpolation):
@@ -100,6 +111,17 @@ Returns the unique variable keys from an array of PTE blocks, in first-occurrenc
 | Parameter | Type                      | Description                  |
 | --------- | ------------------------- | ---------------------------- |
 | `blocks`  | `PortableTextBlockLike[]` | Portable Text blocks to scan |
+
+Returns `string[]`.
+
+### `getMissingVariableKeys(blocks, values)`
+
+Returns the variable keys present in PTE content but absent from the provided values map. Keys are deduplicated and returned in first-occurrence order. An empty string `""` is considered a provided value.
+
+| Parameter | Type                      | Description                         |
+| --------- | ------------------------- | ----------------------------------- |
+| `blocks`  | `PortableTextBlockLike[]` | Portable Text blocks to scan        |
+| `values`  | `Record<string, string>`  | Map of variable IDs to their values |
 
 Returns `string[]`.
 

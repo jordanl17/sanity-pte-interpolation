@@ -97,6 +97,17 @@ function PromoCard({message, values, customComponents}) {
 }
 ```
 
+### Detect missing variables
+
+`getMissingVariableKeys` is re-exported from [`pte-interpolation-core`](https://www.npmjs.com/package/pte-interpolation-core) and returns variable keys present in PTE content but absent from the provided values map. See the [core package README](https://www.npmjs.com/package/pte-interpolation-core#getmissingvariablekeysblocks-values) for full documentation.
+
+```ts
+import {getMissingVariableKeys} from 'pte-interpolation-react'
+
+const missing = getMissingVariableKeys(blocks, {firstName: 'Sarah'})
+// ['vouchersRemaining']
+```
+
 ## Related Packages
 
 This package handles the **rendering** side. To add the variable picker to Sanity Studio's Portable Text Editor, use [`sanity-plugin-pte-interpolation`](https://www.npmjs.com/package/sanity-plugin-pte-interpolation):

@@ -1,6 +1,7 @@
 import {describe, expect, it} from 'vitest'
 import {
   extractVariableKeys,
+  getMissingVariableKeys,
   interpolateToString,
   VARIABLE_TYPE_PREFIX,
 } from 'pte-interpolation-react'
@@ -34,6 +35,18 @@ describe('re-exports from pte-interpolation-core', () => {
     it('returns empty array for plain text', () => {
       const keys = extractVariableKeys(plainTextBlock)
       expect(keys).toEqual([])
+    })
+  })
+
+  describe('getMissingVariableKeys', () => {
+    it('returns missing variable keys', () => {
+      const missing = getMissingVariableKeys(multipleVariablesBlock, {firstName: 'Alice'})
+      expect(missing).toEqual(['lastName', 'email'])
+    })
+
+    it('returns empty array when all variables provided', () => {
+      const missing = getMissingVariableKeys(singleVariableBlock, {firstName: 'Alice'})
+      expect(missing).toEqual([])
     })
   })
 

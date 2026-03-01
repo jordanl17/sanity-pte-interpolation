@@ -126,9 +126,14 @@ function PromoCard({message, recipient}) {
 For framework-agnostic use cases - plain string output, variable key extraction, server-side rendering, or any non-React environment - use [`pte-interpolation-core`](https://www.npmjs.com/package/pte-interpolation-core) directly:
 
 ```ts
-import {interpolateToString, extractVariableKeys} from 'pte-interpolation-core'
+import {
+  interpolateToString,
+  extractVariableKeys,
+  getMissingVariableKeys,
+} from 'pte-interpolation-core'
 
 const keys = extractVariableKeys(blocks) // ['firstName', 'vouchersRemaining']
+const missing = getMissingVariableKeys(blocks, {firstName: 'Sarah'}) // ['vouchersRemaining']
 const text = interpolateToString(blocks, {firstName: 'Sarah', vouchersRemaining: '3'})
 // "Hi, Sarah! You have 3 vouchers remaining."
 ```
