@@ -18,8 +18,11 @@ export function interpolateToString(
       return children
         .map((child) => {
           if (child._type === VARIABLE_TYPE_PREFIX) {
-            const variableKey = child.variableKey as string
-            return values[variableKey] !== undefined ? values[variableKey] : fallback(variableKey)
+            const variableKey = child.variableKey
+            if (typeof variableKey === 'string') {
+              return values[variableKey] !== undefined ? values[variableKey] : fallback(variableKey)
+            }
+            return ''
           }
 
           return typeof child.text === 'string' ? child.text : ''

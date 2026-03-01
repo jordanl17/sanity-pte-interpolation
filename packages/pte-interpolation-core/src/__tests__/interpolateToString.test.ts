@@ -1,6 +1,8 @@
 import {describe, expect, it} from 'vitest'
 import {interpolateToString} from '../interpolateToString'
 import {
+  blockWithMissingVariableKey,
+  blockWithNonStringVariableKey,
   consecutiveVariablesBlock,
   emptyBlocksContent,
   multiBlockContent,
@@ -55,5 +57,13 @@ describe('interpolateToString', () => {
         email: 'patrick@example.com',
       }),
     ).toBe('Name: Patrick Pickles, Email: patrick@example.com')
+  })
+
+  it('returns empty string for a variable block with a missing variableKey', () => {
+    expect(interpolateToString(blockWithMissingVariableKey, {})).toBe('')
+  })
+
+  it('returns empty string for a variable block with a non-string variableKey', () => {
+    expect(interpolateToString(blockWithNonStringVariableKey, {})).toBe('')
   })
 })

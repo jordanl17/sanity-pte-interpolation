@@ -81,6 +81,14 @@ export const duplicateVariableBlock: PortableTextBlockLike[] = [
 
 export const blockWithNoChildren: PortableTextBlockLike[] = [{_type: 'block', _key: 'block-1'}]
 
+export const blockWithMissingVariableKey: PortableTextBlockLike[] = [
+  {
+    _type: 'block',
+    _key: 'block-1',
+    children: [{_type: 'pteInterpolationVariable', _key: 'var-1'}],
+  },
+]
+
 export const blockWithNonStringVariableKey: PortableTextBlockLike[] = [
   {
     _type: 'block',
