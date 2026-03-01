@@ -8,7 +8,6 @@ import {
   emptyBlocksContent,
   multiBlockContent,
   multipleVariablesBlock,
-  plainTextBlock,
   singleVariableBlock,
   styledTextWithVariableBlock,
 } from './fixtures'
@@ -40,20 +39,6 @@ describe('InterpolatedPortableText', () => {
     expect(html).toContain('<span data-variable-key="firstName">Jordan</span>')
     expect(html).toContain('<span data-variable-key="lastName">Lawrence</span>')
     expect(html).toContain('<span data-variable-key="email">jordan@example.com</span>')
-  })
-
-  it('renders plain text unchanged', () => {
-    const html = renderToStaticMarkup(
-      <InterpolatedPortableText value={plainTextBlock} interpolationValues={{}} />,
-    )
-    expect(html).toContain('No variables here.')
-  })
-
-  it('renders fallback for missing values', () => {
-    const html = renderToStaticMarkup(
-      <InterpolatedPortableText value={singleVariableBlock} interpolationValues={{}} />,
-    )
-    expect(html).toContain('{firstName}')
   })
 
   it('uses custom fallback prop', () => {

@@ -5,6 +5,7 @@ import {
   createVariableKeyInput,
   VariableKeyField,
 } from './components/VariableInlineBlock'
+import {isStaleVariable, staleVariableMessage} from './isStaleVariable'
 import type {InterpolationVariable} from './types'
 
 /** @public */
@@ -28,7 +29,16 @@ export function interpolationVariables(
         name: 'variableKey',
         title: 'Variable',
         type: 'string',
-        validation: (rule) => rule.required(),
+        validation: (rule) => [
+          rule.required(),
+          rule
+            .custom((value) => {
+              const variableKey = typeof value === 'string' ? value : undefined
+              if (isStaleVariable(variableKey, variables) === false) return true
+              return staleVariableMessage(value as string)
+            })
+            .warning(),
+        ],
         components: {
           field: VariableKeyField,
           input: createVariableKeyInput(variables),

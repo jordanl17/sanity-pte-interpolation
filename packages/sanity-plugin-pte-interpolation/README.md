@@ -23,7 +23,7 @@ npm install sanity-plugin-pte-interpolation
 
 ## Usage
 
-Call `interpolationVariables()` inside the `of` array of a Portable Text field. It returns a `block` array member with the variable inline object type injected.
+Call `interpolationVariables()` inside the `of` array of a Portable Text field. It returns a `block` array member augmented with the `pteInterpolationVariable` inline type.
 
 ```ts
 import {defineType, defineField} from 'sanity'
@@ -65,7 +65,7 @@ Each variable requires an `id` (the lookup key used at render time) and a `name`
 
 ### With a custom block definition
 
-If you already have a customised `block` definition, pass it as the second argument and the variable type will be appended to its existing `of` array:
+If you already have a customised `block` definition, pass it as the second argument and `interpolationVariables` appends the variable type to its existing `of` array:
 
 ```ts
 import {defineArrayMember} from 'sanity'
@@ -81,6 +81,16 @@ const customBlock = defineArrayMember({
 
 interpolationVariables([{id: 'firstName', name: 'First name'}], customBlock)
 ```
+
+## Stale variable detection
+
+When a variable's `id` no longer exists in the `variables` array - for example after a developer renames or removes it from the schema config - the Studio surfaces warnings in three places:
+
+- **Inline block in the PTE editor** - a warning icon and a "Stale" badge appear next to the variable name, and a tooltip explains the issue.
+- **Autocomplete input when editing the block** - the autocomplete field shows a red border, and a caution card below it reads `Variable "..." is no longer defined. Please select a valid variable.`
+- **Document-level validation** - the Studio raises a validation warning, not an error. Publishing is not blocked, since stale variables are typically caused by a developer schema change rather than an editor mistake.
+
+Editors can resolve the warning by opening the variable block and selecting a currently defined variable from the picker.
 
 ## How It Works
 

@@ -1,108 +1,174 @@
-import {type ReactElement} from 'react'
-import {describe, expect, it, vi} from 'vitest'
-import {createVariableInlineBlock, createVariableKeyInput} from '../components/VariableInlineBlock'
-import type {BlockProps, InputProps} from 'sanity'
+import {type ComponentType, type ReactElement, type ReactNode} from 'react'
+import {cleanup, render, screen} from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
+import {ThemeProvider} from '@sanity/ui'
+import {buildTheme} from '@sanity/ui/theme'
+import {afterEach, describe, expect, it, vi} from 'vitest'
+import {
+  VariableKeyField,
+  createVariableInlineBlock,
+  createVariableKeyInput,
+} from '../components/VariableInlineBlock'
 import type {InterpolationVariable} from '../types'
 
-vi.mock('react', async () => {
-  const actual = await vi.importActual('react')
-  return {
-    ...actual,
-    useId: () => 'test-autocomplete-id',
-    useCallback: (callback: unknown) => callback,
-  }
+// jsdom does not implement window.matchMedia, which @sanity/ui components depend on
+Object.defineProperty(window, 'matchMedia', {
+  writable: true,
+  value: vi.fn().mockImplementation((query: string) => ({
+    matches: false,
+    media: query,
+    onchange: null,
+    addListener: vi.fn(),
+    removeListener: vi.fn(),
+    addEventListener: vi.fn(),
+    removeEventListener: vi.fn(),
+    dispatchEvent: vi.fn(),
+  })),
 })
+
+afterEach(cleanup)
+
+const theme = buildTheme()
 
 const testVariables: InterpolationVariable[] = [
   {id: 'firstName', name: 'First name', description: 'First name of the recipient'},
   {id: 'email', name: 'Email address'},
 ]
 
-function findTextInElement(element: unknown): string[] {
-  if (typeof element === 'string') return [element]
-  if (!element || typeof element !== 'object') return []
-  const el = element as {props?: Record<string, unknown>}
-  if (!el.props) return []
-  const {children} = el.props
-  if (Array.isArray(children)) return children.flatMap(findTextInElement)
-  return findTextInElement(children)
-}
-
-function findPropInElement(element: unknown, propName: string): unknown {
-  if (!element || typeof element !== 'object') return undefined
-  const el = element as {props?: Record<string, unknown>}
-  if (!el.props) return undefined
-  if (propName in el.props) return el.props[propName]
-  const {children} = el.props
-  if (Array.isArray(children)) {
-    for (const child of children) {
-      const found = findPropInElement(child, propName)
-      if (found !== undefined) return found
-    }
-  }
-  return findPropInElement(children, propName)
-}
-
 describe('createVariableInlineBlock', () => {
-  function captureRenderPreview(variableKey: string | undefined): ReactElement | undefined {
+  function renderPreview(variableKey: string | undefined) {
     const VariableInlineBlock = createVariableInlineBlock(testVariables)
-    let capturedRenderPreview: ((...args: unknown[]) => ReactElement) | undefined
+    const Block = VariableInlineBlock as unknown as ComponentType<{
+      value: {variableKey?: string}
+      renderDefault: (props: {renderPreview?: () => ReactElement}) => ReactElement
+    }>
 
-    VariableInlineBlock({
-      value: {variableKey},
-      renderDefault: (props: unknown) => {
-        capturedRenderPreview = (props as {renderPreview?: (...args: unknown[]) => ReactElement})
-          .renderPreview
-        return null as unknown as ReactElement
-      },
-    } as unknown as BlockProps)
-
-    return capturedRenderPreview?.()
+    return render(
+      <ThemeProvider theme={theme}>
+        <Block
+          value={{variableKey}}
+          renderDefault={(props) => (props.renderPreview?.() ?? null) as unknown as ReactElement}
+        />
+      </ThemeProvider>,
+    )
   }
 
   it('renders the readable name when variableKey matches a variable id', () => {
-    expect(findTextInElement(captureRenderPreview('firstName'))).toContain('First name')
+    renderPreview('firstName')
+    expect(screen.getByText('First name')).toBeDefined()
   })
 
   it('renders the raw variableKey when no variable matches', () => {
-    expect(findTextInElement(captureRenderPreview('unknown'))).toContain('unknown')
+    renderPreview('unknown')
+    expect(screen.getByText('unknown')).toBeDefined()
   })
 
   it('renders "Select variable" when variableKey is undefined', () => {
-    expect(findTextInElement(captureRenderPreview(undefined))).toContain('Select variable')
+    renderPreview(undefined)
+    expect(screen.getByText('Select variable')).toBeDefined()
+  })
+
+  it('renders a "Stale" badge when variableKey does not match any variable', () => {
+    renderPreview('staleKey')
+    expect(screen.getByText('Stale')).toBeDefined()
+  })
+
+  it('does not render a "Stale" badge when variableKey matches', () => {
+    renderPreview('firstName')
+    expect(screen.queryByText('Stale')).toBeNull()
   })
 })
 
 describe('createVariableKeyInput', () => {
-  function renderInput(value: string | undefined): ReactElement {
+  function renderInput(value: string | undefined, onChange = vi.fn()) {
     const VariableKeyInput = createVariableKeyInput(testVariables)
-    return VariableKeyInput({
-      value,
-      onChange: vi.fn(),
-    } as unknown as InputProps) as ReactElement
+    const Input = VariableKeyInput as unknown as ComponentType<{
+      value?: string
+      onChange: () => void
+    }>
+
+    render(
+      <ThemeProvider theme={theme}>
+        <Input value={value} onChange={onChange} />
+      </ThemeProvider>,
+    )
+
+    return {onChange}
   }
 
   it('includes the description when the selected variable has one', () => {
-    expect(findTextInElement(renderInput('firstName'))).toContain('First name of the recipient')
+    renderInput('firstName')
+    expect(screen.getByText('First name of the recipient')).toBeDefined()
   })
 
-  it('does not include description when the selected variable has none', () => {
-    const element = renderInput('email')
-    const allText = findTextInElement(element)
-    const textsOutsideAutocomplete = allText.filter((text) => text !== 'Search variables...')
-    expect(textsOutsideAutocomplete).toHaveLength(0)
+  it('does not include the description for a variable that has none', () => {
+    renderInput('email')
+    expect(screen.queryByText('First name of the recipient')).toBeNull()
   })
 
-  it('does not include description when no variable is selected', () => {
-    const element = renderInput(undefined)
-    const allText = findTextInElement(element)
-    const textsOutsideAutocomplete = allText.filter((text) => text !== 'Search variables...')
-    expect(textsOutsideAutocomplete).toHaveLength(0)
+  it('does not include the description when no variable is selected', () => {
+    renderInput(undefined)
+    expect(screen.queryByText('First name of the recipient')).toBeNull()
   })
 
   it('renders a search placeholder', () => {
-    const element = renderInput(undefined)
-    const placeholder = findPropInElement(element, 'placeholder')
-    expect(placeholder).toBe('Search variables...')
+    renderInput(undefined)
+    expect(screen.getByPlaceholderText('Search variables...')).toBeDefined()
+  })
+
+  it('renders a stale warning when variableKey is stale', () => {
+    renderInput('staleKey')
+    expect(screen.getByText(/is no longer defined/)).toBeDefined()
+  })
+
+  it('does not render a stale warning for a matched key or undefined value', () => {
+    renderInput('firstName')
+    expect(screen.queryByText(/is no longer defined/)).toBeNull()
+    cleanup()
+
+    renderInput(undefined)
+    expect(screen.queryByText(/is no longer defined/)).toBeNull()
+  })
+
+  it('filters options by name when typing', async () => {
+    const user = userEvent.setup()
+    renderInput(undefined)
+
+    const input = screen.getByPlaceholderText('Search variables...')
+    await user.type(input, 'Email')
+
+    expect(screen.getByText('Email address')).toBeDefined()
+    expect(screen.queryByText('First name')).toBeNull()
+  })
+
+  it('calls onChange when selecting an option', async () => {
+    const user = userEvent.setup()
+    const {onChange} = renderInput(undefined)
+
+    const input = screen.getByPlaceholderText('Search variables...')
+    await user.type(input, 'First')
+
+    const option = await screen.findByText('First name')
+    await user.click(option)
+
+    expect(onChange).toHaveBeenCalled()
+  })
+})
+
+describe('VariableKeyField', () => {
+  const Field = VariableKeyField as unknown as ComponentType<{children: ReactNode}>
+
+  it('renders its children', () => {
+    render(<Field>child content</Field>)
+    expect(screen.getByText('child content')).toBeDefined()
+  })
+
+  it('renders nested element children', () => {
+    render(
+      <Field>
+        <span>nested child</span>
+      </Field>,
+    )
+    expect(screen.getByText('nested child')).toBeDefined()
   })
 })

@@ -93,4 +93,39 @@ describe('interpolationVariables', () => {
       name: VARIABLE_TYPE_PREFIX,
     })
   })
+
+  describe('variableKey custom validation', () => {
+    function extractCustomValidator(variables: typeof testVariables): (value: unknown) => unknown {
+      const result = interpolationVariables(variables)
+      const ofArray = result.of as Array<{fields?: Array<{validation?: unknown}>}>
+      const variableKeyField = ofArray[0].fields?.[0]
+
+      let capturedCustomValidator: ((value: unknown) => unknown) | undefined
+      const mockRule = {
+        required: () => mockRule,
+        custom: (validator: (value: unknown) => unknown) => {
+          capturedCustomValidator = validator
+          return mockRule
+        },
+        warning: () => mockRule,
+      }
+
+      ;(variableKeyField?.validation as (rule: typeof mockRule) => unknown[])(mockRule)
+
+      if (!capturedCustomValidator) throw new Error('Custom validator was not captured')
+      return capturedCustomValidator
+    }
+
+    it('validation returns a message string for a stale variableKey', () => {
+      const validator = extractCustomValidator(testVariables)
+      const validationResult = validator('removedVariable')
+      expect(validationResult).toBeTypeOf('string')
+      expect(validationResult).toContain('removedVariable')
+    })
+
+    it('validation returns true for a valid variableKey', () => {
+      const validator = extractCustomValidator(testVariables)
+      expect(validator('firstName')).toBe(true)
+    })
+  })
 })

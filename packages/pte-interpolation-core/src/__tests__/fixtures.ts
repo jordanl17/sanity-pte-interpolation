@@ -85,9 +85,7 @@ export const blockWithNonStringVariableKey: PortableTextBlockLike[] = [
   {
     _type: 'block',
     _key: 'block-1',
-    children: [
-      {_type: 'pteInterpolationVariable', _key: 'var-1', variableKey: 123 as unknown as string},
-    ],
+    children: [{_type: 'pteInterpolationVariable', _key: 'var-1', variableKey: 123} as never],
   },
 ]
 
