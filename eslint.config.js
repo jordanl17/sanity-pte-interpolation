@@ -25,7 +25,7 @@ export default tseslint.config(
     },
     settings: {
       react: {
-        version: '18.0',
+        version: '18',
       },
     },
     rules: {
