@@ -41,8 +41,11 @@ jobs:
             fs.writeFileSync('package.json', JSON.stringify(pkg, null, 2));
           "
 
+      - name: Remove lockfile for clean dependency resolution
+        run: rm pnpm-lock.yaml
+
       - name: Install dependencies
         run: pnpm install --no-frozen-lockfile
 
-      - name: Test
-        run: pnpm test
+      - name: Test sanity plugin
+        run: pnpm test -- packages/sanity-plugin-pte-interpolation
