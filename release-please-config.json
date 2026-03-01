@@ -6,6 +6,17 @@
     {"type": "docs", "section": "Documentation", "hidden": false},
     {"type": "chore", "section": "Miscellaneous", "hidden": false}
   ],
+  "plugins": [
+    {
+      "type": "linked-versions",
+      "groupName": "pte-interpolation",
+      "components": [
+        "sanity-plugin-pte-interpolation",
+        "pte-interpolation-react",
+        "pte-interpolation-core"
+      ]
+    }
+  ],
   "packages": {
     "packages/sanity-plugin-pte-interpolation": {
       "release-type": "node",
