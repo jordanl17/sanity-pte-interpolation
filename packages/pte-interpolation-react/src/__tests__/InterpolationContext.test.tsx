@@ -39,11 +39,11 @@ describe('InterpolationProvider + InterpolatedPortableText integration', () => {
       >
         <InterpolatedPortableText
           value={multipleVariablesBlock}
-          interpolationValues={{firstName: 'Morgan'}}
+          interpolationValues={{firstName: 'Patrick'}}
         />
       </InterpolationProvider>,
     )
-    expect(container.innerHTML).toContain('<span data-variable-key="firstName">Morgan</span>')
+    expect(container.innerHTML).toContain('<span data-variable-key="firstName">Patrick</span>')
     expect(container.innerHTML).toContain('<span data-variable-key="lastName">{lastName}</span>')
     expect(container.innerHTML).toContain('<span data-variable-key="email">{email}</span>')
   })
