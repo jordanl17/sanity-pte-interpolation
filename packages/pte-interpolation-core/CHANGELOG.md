@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.1](https://github.com/jordanl17/sanity-pte-interpolation/compare/pte-interpolation-core-v1.3.0...pte-interpolation-core-v1.3.1) (2026-03-01)
+
+
+### Bug Fixes
+
+* handle non-string and missing variable keys in interpolateToString function ([3479129](https://github.com/jordanl17/sanity-pte-interpolation/commit/3479129f9a9c1ce22d684a3630fb3080cb9d6214))
+
 ## [1.3.0](https://github.com/jordanl17/sanity-pte-interpolation/compare/pte-interpolation-core-v1.2.1...pte-interpolation-core-v1.3.0) (2026-03-01)
 
 
