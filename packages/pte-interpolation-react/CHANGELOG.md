@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.4.0](https://github.com/jordanl17/sanity-pte-interpolation/compare/pte-interpolation-react-v1.3.1...pte-interpolation-react-v1.4.0) (2026-03-25)
+
+
+### Features
+
+* bump minor version for dependency updates ([#34](https://github.com/jordanl17/sanity-pte-interpolation/issues/34)) ([469bdb8](https://github.com/jordanl17/sanity-pte-interpolation/commit/469bdb888b10dcbf0393a1acbba2c115e9f7169d))
+
 ## [1.3.1](https://github.com/jordanl17/sanity-pte-interpolation/compare/pte-interpolation-react-v1.3.0...pte-interpolation-react-v1.3.1) (2026-03-01)
 
 
