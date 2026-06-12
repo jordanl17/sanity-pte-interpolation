@@ -55,6 +55,9 @@
     "type-check": "tsc --noEmit",
     "yalc:publish": "npx yalc publish"
   },
+  "engines": {
+    "node": ">=22.12.0"
+  },
   "peerDependencies": {
     "@sanity/icons": "^3.0.0",
     "@sanity/ui": "^2.0.0 || ^3.0.0",

@@ -14,6 +14,10 @@ Part of [sanity-pte-interpolation](https://github.com/jordanl17/sanity-pte-inter
 npm install sanity-plugin-pte-interpolation
 ```
 
+### Runtime requirements
+
+- `node >=22.12.0`
+
 ### Peer dependencies
 
 - `sanity ^3.0.0 || ^4.0.0 || ^5.0.0 || ^6.0.0`
