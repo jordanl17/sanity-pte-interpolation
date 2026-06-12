@@ -14,16 +14,14 @@ Part of [sanity-pte-interpolation](https://github.com/jordanl17/sanity-pte-inter
 npm install sanity-plugin-pte-interpolation
 ```
 
-### Runtime requirements
-
-- `node >=22.12.0`
-
 ### Peer dependencies
 
 - `sanity ^3.0.0 || ^4.0.0 || ^5.0.0 || ^6.0.0`
 - `react ^18.0.0 || ^19.0.0`
 - `@sanity/ui ^2.0.0 || ^3.0.0`
 - `@sanity/icons ^3.0.0`
+
+When using `sanity ^6`, follow Sanity's runtime requirements (including Node.js `>=22.12.0`).
 
 ## Usage
 
