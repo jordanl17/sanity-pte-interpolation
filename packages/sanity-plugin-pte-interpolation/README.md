@@ -16,7 +16,7 @@ npm install sanity-plugin-pte-interpolation
 
 ### Peer dependencies
 
-- `sanity ^3.0.0 || ^4.0.0 || ^5.0.0`
+- `sanity ^3.0.0 || ^4.0.0 || ^5.0.0 || ^6.0.0`
 - `react ^18.0.0 || ^19.0.0`
 - `@sanity/ui ^2.0.0 || ^3.0.0`
 - `@sanity/icons ^3.0.0`
