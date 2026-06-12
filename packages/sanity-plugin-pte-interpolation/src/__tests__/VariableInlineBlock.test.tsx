@@ -11,6 +11,11 @@ import {
 } from '../components/VariableInlineBlock'
 import type {InterpolationVariable} from '../types'
 
+vi.mock('sanity', () => ({
+  set: (value: string) => ({type: 'set', value}),
+  unset: () => ({type: 'unset'}),
+}))
+
 // jsdom does not implement window.matchMedia, which @sanity/ui components depend on
 Object.defineProperty(window, 'matchMedia', {
   writable: true,
