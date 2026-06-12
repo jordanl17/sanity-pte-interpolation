@@ -1,6 +1,11 @@
 import {defineArrayMember} from 'sanity'
-import {describe, expect, it} from 'vitest'
+import {describe, expect, it, vi} from 'vitest'
 import {interpolationVariables, VARIABLE_TYPE_PREFIX} from '../interpolationVariables'
+
+vi.mock('sanity', () => ({
+  defineArrayMember: <Definition>(definition: Definition) => definition,
+  defineField: <Definition>(definition: Definition) => definition,
+}))
 
 const testVariables = [
   {id: 'firstName', name: 'First name', description: 'First name of the recipient'},
