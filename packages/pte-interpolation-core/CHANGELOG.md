@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.5.0](https://github.com/jordanl17/sanity-pte-interpolation/compare/pte-interpolation-core-v1.4.0...pte-interpolation-core-v1.5.0) (2026-06-12)
+
+
+### Miscellaneous
+
+* **pte-interpolation-core:** Synchronize pte-interpolation versions
+
 ## [1.4.0](https://github.com/jordanl17/sanity-pte-interpolation/compare/pte-interpolation-core-v1.3.1...pte-interpolation-core-v1.4.0) (2026-03-25)
 
 

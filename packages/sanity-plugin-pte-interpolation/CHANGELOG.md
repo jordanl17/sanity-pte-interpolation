@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.5.0](https://github.com/jordanl17/sanity-pte-interpolation/compare/sanity-plugin-pte-interpolation-v1.4.0...sanity-plugin-pte-interpolation-v1.5.0) (2026-06-12)
+
+
+### Features
+
+* stabilize Sanity 5.x/6.x compatibility tests by mocking runtime imports ([#37](https://github.com/jordanl17/sanity-pte-interpolation/issues/37)) ([d9b3638](https://github.com/jordanl17/sanity-pte-interpolation/commit/d9b36384d4c5c21593b2d10559bcd7f791447e26))
+
 ## [1.4.0](https://github.com/jordanl17/sanity-pte-interpolation/compare/sanity-plugin-pte-interpolation-v1.3.1...sanity-plugin-pte-interpolation-v1.4.0) (2026-03-25)
 
 
